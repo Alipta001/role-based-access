@@ -1,36 +1,8 @@
-// import axios, { type InternalAxiosRequestConfig } from "axios";
-
-// export const BaseURL = "http://localhost:4000";
-
-// export const AxiosInstance = axios.create({
-//   baseURL: BaseURL,
-// });
-
-// // Add interceptor to attach token
-// AxiosInstance.interceptors.request.use(
-//   (config: InternalAxiosRequestConfig) => {
-//     let token: string | null = null;
-
-//     if (typeof window !== "undefined" && window.localStorage) {
-//       token = localStorage.getItem("token");
-//     }
-
-//     if (token) {
-//       config.headers.set("Authorization", `Bearer ${token}`);
-//     }
-
-//     return config;
-//   },
-//   (error) => {
-//     return Promise.reject(error);
-//   }
-// );
-
-
 import axios, {
   AxiosError,
   InternalAxiosRequestConfig,
 } from "axios";
+import { endPoints } from "../endpoints/endPoints";
 
 const BaseURL =
   process.env.NEXT_PUBLIC_BASE_URL ||
@@ -46,10 +18,6 @@ interface CustomAxiosRequestConfig
   _retry?: boolean;
 }
 
-// ==========================================
-// RESPONSE INTERCEPTOR
-// ==========================================
-
 AxiosInstance.interceptors.response.use(
   (response) => response,
 
@@ -57,23 +25,28 @@ AxiosInstance.interceptors.response.use(
     const originalRequest =
       error.config as CustomAxiosRequestConfig;
 
-    // Request itself failed
     if (!originalRequest) {
       return Promise.reject(error);
     }
 
-    // Do NOT try refreshing these APIs
     const url = originalRequest.url || "";
 
-    if (
-      url.includes("/auth/login") ||
-      url.includes("/auth/logout") ||
-      url.includes("/auth/refresh-token")
-    ) {
+    const excludedRoutes = [
+      endPoints.admin.auth.login,
+      endPoints.manager.auth.login,
+      endPoints.employee.auth.login,
+      endPoints.common.logout,
+      endPoints.common.refreshToken,
+    ];
+
+    const shouldSkip = excludedRoutes.some(
+      (route) => url.includes(route)
+    );
+
+    if (shouldSkip) {
       return Promise.reject(error);
     }
 
-    // Refresh only once
     if (
       error.response?.status === 401 &&
       !originalRequest._retry
@@ -81,26 +54,42 @@ AxiosInstance.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        console.log("Refreshing access token...");
-
         await AxiosInstance.post(
-          "/admin/auth/refresh-token"
+          endPoints.common.refreshToken
         );
 
-        console.log("Access token refreshed.");
-
-        // Retry original request
         return AxiosInstance(originalRequest);
-
       } catch (refreshError) {
         console.error(
           "Refresh token failed:",
           refreshError
         );
 
-        // Redirect only if session actually expired
         if (typeof window !== "undefined") {
-          window.location.replace("/adminLogin");
+          const pathname =
+            window.location.pathname;
+
+          if (
+            pathname.startsWith(
+              "/adminDashboard"
+            )
+          ) {
+            window.location.replace(
+              "/adminLogin"
+            );
+          } else if (
+            pathname.startsWith(
+              "/managerDashboard"
+            )
+          ) {
+            window.location.replace(
+              "/managerLogin"
+            );
+          } else {
+            window.location.replace(
+              "/employeeLogin"
+            );
+          }
         }
 
         return Promise.reject(refreshError);

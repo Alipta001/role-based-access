@@ -1,8 +1,4 @@
-import {
-  ArrowLeft,
-  ShieldCheck,
-  UserPlus,
-} from "lucide-react";
+import { ArrowLeft, ShieldCheck, UserPlus } from "lucide-react";
 
 import AddEmployeeForm from "./addEmployeeForm";
 
@@ -10,9 +6,7 @@ interface AddEmployeeLayoutProps {
   onBack?: () => void;
 }
 
-export default function AddUserLayout({
-  onBack,
-}: AddEmployeeLayoutProps) {
+export default function AddUserLayout({ onBack }: AddEmployeeLayoutProps) {
   return (
     <section className="w-full">
       {/* Page Header */}
@@ -27,8 +21,8 @@ export default function AddUserLayout({
           </h1>
 
           <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-500 sm:text-base">
-            Create a new employee account and send
-            temporary login credentials securely by email.
+            Create a new employee account and send temporary login credentials
+            securely by email.
           </p>
         </div>
 
@@ -39,7 +33,6 @@ export default function AddUserLayout({
             className="inline-flex h-11 items-center justify-center gap-2 self-start rounded-xl border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-700 shadow-sm transition-all hover:border-slate-300 hover:bg-slate-50"
           >
             <ArrowLeft size={18} />
-
             Back
           </button>
         )}
@@ -63,8 +56,8 @@ export default function AddUserLayout({
           </h2>
 
           <p className="mt-2 text-sm leading-6 text-slate-600">
-            The employee account will be created with
-            restricted access based on the employee role.
+            The employee account will be created with restricted access based on
+            the employee role.
           </p>
 
           <div className="mt-6 space-y-4">
@@ -94,8 +87,7 @@ export default function AddUserLayout({
               </span>
 
               <p className="text-sm leading-6 text-slate-600">
-                The employee must change the password
-                during the first login.
+                The employee must change the password during the first login.
               </p>
             </div>
           </div>

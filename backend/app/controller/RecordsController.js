@@ -65,6 +65,8 @@ async getAllRecords(req, res){
   }
 };
 
+
+
 /** Get Single Record */
 async getRecordById(req, res){
   try {

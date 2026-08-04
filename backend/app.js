@@ -14,11 +14,6 @@ const morgan=require('morgan')
 ConnectDB();
 const app=express();
 
-// security and middleware
-// app.use(cors({
-//     origin: 'http://localhost:3000',
-//     credentials: true,
-// }))
 
 const allowedOrigins = [
   "http://localhost:3000",
@@ -65,10 +60,20 @@ app.use('uploads',express.static(path.join(__dirname,'uploads')))
 app.use('/uploads',express.static('uploads'))
 
 
-
+//Common Routes
+const commonRoutes= require("./app/routes/commonRoutes");
+app.use('/common', commonRoutes);
 //Admin Routes
 const adminRoutes= require("./app/routes/adminRoutes/adminRoutes");
 app.use('/admin', adminRoutes);
+
+//Employee Routes
+const employeeRoutes= require("./app/routes/employeeRoutes/employeeRoutes");
+app.use('/employee', employeeRoutes);
+
+//Manager Routes 
+const managerRoutes= require("./app/routes/managerRoutes/managerRoutes");
+app.use('/manager', managerRoutes);
 
 //record routes
 const RecordRoutes = require('./app/routes/recordRoutes');

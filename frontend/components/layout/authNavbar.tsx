@@ -1,13 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import {
-  FiShield,
-  FiUserCheck,
-  FiUsers,
-  FiMenu,
-  FiX,
-} from "react-icons/fi";
+import { FiShield, FiUserCheck, FiUsers, FiMenu, FiX } from "react-icons/fi";
 import { useState } from "react";
 
 export default function AuthNavbar() {
@@ -27,9 +21,7 @@ export default function AuthNavbar() {
       "
     >
       <div className="max-w-7xl mx-auto px-4 lg:px-6">
-
         <div className="h-20 flex items-center justify-between">
-
           {/* Logo */}
           <Link href="/" className="flex items-center gap-4">
             <div
@@ -65,7 +57,6 @@ export default function AuthNavbar() {
 
           {/* Desktop Menu */}
           <div className="hidden lg:flex items-center gap-4">
-
             <Link
               href="/adminLogin"
               className="
@@ -119,7 +110,6 @@ export default function AuthNavbar() {
               <FiUsers />
               Employee Login
             </Link>
-
           </div>
 
           {/* Mobile Menu Button */}
@@ -135,15 +125,12 @@ export default function AuthNavbar() {
           >
             {mobileMenu ? <FiX size={24} /> : <FiMenu size={24} />}
           </button>
-
         </div>
 
         {/* Mobile Menu */}
         {mobileMenu && (
           <div className="lg:hidden pb-6">
-
             <div className="grid gap-3">
-
               <Link
                 href="/adminLogin"
                 className="
@@ -185,12 +172,9 @@ export default function AuthNavbar() {
                 <FiUsers />
                 Employee Login
               </Link>
-
             </div>
-
           </div>
         )}
-
       </div>
     </nav>
   );

@@ -1,25 +1,3 @@
-// const mongoose = require('mongoose');
-// const Schema = mongoose.Schema;
-
-// const recordSchema = new Schema({
-//     id:{
-//         type:String,
-//         require: true
-//     },
-//     title:{
-//         type: String,
-//         require: true,
-//     },
-//     description:{
-//         type: String,
-//         require: true
-//     },
-//     status:{
-//         type:String,
-//         default: Active
-//     }
-// })
-
 const mongoose = require("mongoose");
 
 const recordSchema = new mongoose.Schema(
