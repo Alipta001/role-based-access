@@ -1,8 +1,9 @@
 "use client";
 
-import { TaskType } from "@/types/record";
-import RecordCard from "./recordCard";
-import RecordEmpty from "./recordEmpty";
+import { TaskType } from "@/types/task";
+import RecordCard from "./taskCard";
+import RecordEmpty from "./taskEmpty";
+
 
 interface RecordGridProps {
   records: TaskType[];

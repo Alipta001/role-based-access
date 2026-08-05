@@ -26,6 +26,8 @@ router.get(
   AdminController.getUsers
 );
 
+router.patch('/user/toggleUserStatus/:id', AuthCheck(["admin"]), AdminController.toggleUserStatus)
+
 // router.patch(
 //   "/users/:id",
 //   AuthCheck(["admin"]),

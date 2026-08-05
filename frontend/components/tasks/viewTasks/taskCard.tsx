@@ -10,8 +10,8 @@ import {
   FiUser,
 } from "react-icons/fi";
 
-import { TaskType } from "@/types/record";
 import DeleteModal from "@/components/common/deleteModal";
+import { TaskType } from "@/types/task";
 
 interface RecordCardProps {
   record: TaskType;
@@ -211,7 +211,7 @@ export default function RecordCard({
 
         <div className="mt-8 flex flex-wrap gap-3">
           <Link
-            href={`/records/view/${record._id}`}
+            href={`/tasks/view/${record._id}`}
             className="
               inline-flex
               items-center
@@ -233,7 +233,7 @@ export default function RecordCard({
 
           {role !== "employee" && (
             <Link
-              href={`/records/update/${record._id}`}
+              href={`/tasks/update/${record._id}`}
               className="
                 inline-flex
                 items-center

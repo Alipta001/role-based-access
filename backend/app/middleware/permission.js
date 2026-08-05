@@ -9,16 +9,19 @@ const permissions = {
     "read_record",
     "update_record",
     "delete_record",
+    "update_record_status",
   ],
 
   manager: [
     "create_record",
     "read_record",
     "update_record",
+    "update_record_status",
   ],
 
   employee: [
     "read_record",
+    "update_record_status",
   ],
 };
 

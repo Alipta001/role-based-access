@@ -5,15 +5,16 @@ import { useEffect, useMemo, useState } from "react";
 import { AxiosInstance } from "@/api/axios/axios";
 import { endPoints } from "@/api/endpoints/endPoints";
 
-import RecordHeader from "./viewRecords/recordHeader";
-import RecordFilter from "./viewRecords/recordFilter";
-import RecordGrid from "./viewRecords/recordGrid";
-import RecordEmpty from "./viewRecords/recordEmpty";
-import RecordSkeleton from "../common/loading/recordSkeleton";
-import Pagination from "../common/pagination";
 
-import { TaskType } from "@/types/record";
+
 import { toast } from "react-toastify";
+import RecordSkeleton from "../common/loading/taskSkeleton";
+import RecordHeader from "./taskDetails/taskHeader";
+import RecordFilter from "./viewTasks/taskFilter";
+import RecordGrid from "./viewTasks/taskGrid";
+import Pagination from "../common/pagination";
+import RecordEmpty from "./viewTasks/taskEmpty";
+import { TaskType } from "@/types/task";
 
 export default function RecordsContainer() {
   const [records, setRecords] = useState<TaskType[]>([]);
