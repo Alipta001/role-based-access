@@ -1,7 +1,6 @@
 "use client";
 
-import { AxiosInstance } from "@/api/axios/axios";
-import { endPoints } from "@/api/endpoints/endPoints";
+import { authService } from "@/api/services";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -45,7 +44,7 @@ export default function RegisterForm() {
 
   const onSubmit = async (data: RegisterFormValues) => {
     try {
-      const response = await AxiosInstance.post(endPoints.auth.register, {
+      const response = await authService.registerAdmin({
         name: data.name,
         email: data.email,
         password: data.password,
@@ -54,14 +53,17 @@ export default function RegisterForm() {
 
       if (response.data.status) {
         alert(response.data.message || "Registration Successful!");
-        if(response.data.data.role == "employee")
-        router.push("/employeeLogin");
+        if (response.data.data.role === "employee") {
+          router.push("/employeeLogin");
+        }
 
-        if(response.data.data.role == "admin")
-        router.push("/adminLogin");
+        if (response.data.data.role === "admin") {
+          router.push("/adminLogin");
+        }
 
-        if(response.data.data.role == "manager")
-        router.push("/managerLogin");
+        if (response.data.data.role === "manager") {
+          router.push("/managerLogin");
+        }
       }
     } catch (error: unknown) {
       console.error(error);

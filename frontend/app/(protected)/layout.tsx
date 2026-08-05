@@ -4,12 +4,12 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import DashboardShell from "@/components/dashboard/dashboardShell";
+import DashboardSkeleton from "@/components/common/loading/dashboardSkeleton";
 
 import { DashboardProvider } from "@/context/dashboardContext";
 import { useDashboard } from "@/context/dashboardContext";
 
-import { AxiosInstance } from "@/api/axios/axios";
-import { endPoints } from "@/api/endpoints/endPoints";
+import { authService, dashboardService } from "@/api/services";
 
 interface User {
   _id: string;
@@ -30,21 +30,7 @@ function LayoutContent({
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
-        const [usersResponse, tasksResponse] =
-          await Promise.all([
-            AxiosInstance.get(
-              endPoints.admin.users.list
-            ),
-            AxiosInstance.get(
-              endPoints.tasks.list
-            ),
-          ]);
-
-        const users =
-          usersResponse.data.data || [];
-
-        const tasks =
-          tasksResponse.data.data || [];
+        const { users, tasks } = await dashboardService.fetchAdminDashboardStats();
 
         setStats({
           totalUsers: users.length,
@@ -100,10 +86,7 @@ export default function ProtectedLayout({
   useEffect(() => {
     const getUser = async () => {
       try {
-        const response =
-          await AxiosInstance.get(
-            endPoints.common.getUser
-          );
+        const response = await authService.getCurrentUser();
 
         setUser(response.data.data);
       } catch (error) {
@@ -118,16 +101,22 @@ export default function ProtectedLayout({
     getUser();
   }, [router]);
 
+
+
   if (loading) {
     return (
-      <div className="flex h-screen items-center justify-center">
-        Loading...
+      <div className="min-h-screen bg-slate-50 px-4 py-12">
+        <DashboardSkeleton />
       </div>
     );
   }
 
   if (!user) {
-    return null;
+    return (
+      <div className="min-h-screen bg-slate-50 px-4 py-12">
+        <DashboardSkeleton />
+      </div>
+    );
   }
 
   return (

@@ -5,8 +5,7 @@ import { useRouter } from "next/navigation";
 
 import Navbar from "../layout/navbar";
 import Sidebar from "../layout/sidebar";
-import { AxiosInstance } from "@/api/axios/axios";
-import { endPoints } from "@/api/endpoints/endPoints";
+import { authService } from "@/api/services";
 
 interface DashboardShellProps {
   role: "admin" | "manager" | "employee";
@@ -23,7 +22,8 @@ export default function DashboardShell({ role, user, children }: DashboardShellP
 
   const handleLogout = async () => {
     try {
-      await AxiosInstance.post(endPoints.common.logout);
+      await authService.logout();
+
       const redirectPath =
         role === "admin"
           ? "/adminLogin"

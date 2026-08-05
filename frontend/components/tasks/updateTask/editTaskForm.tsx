@@ -5,8 +5,8 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useParams, useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 
-import { AxiosInstance } from "@/api/axios/axios";
-import { endPoints } from "@/api/endpoints/endPoints";
+import { taskService, userService } from "@/api/services";
+import FormSkeleton from "@/components/common/loading/formSkeleton";
 
 type TaskFormData = {
   title: string;
@@ -47,9 +47,7 @@ export default function EditTaskForm() {
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
-        const response = await AxiosInstance.get(
-          endPoints.admin.users.list
-        );
+        const response = await userService.fetchUsers();
 
         const users = Array.isArray(response.data.data)
           ? response.data.data
@@ -64,9 +62,7 @@ export default function EditTaskForm() {
 
     const fetchTask = async () => {
       try {
-        const response = await AxiosInstance.get(
-          endPoints.tasks.getById(id)
-        );
+        const response = await taskService.getTaskById(id);
 
         const task = response.data.data;
 
@@ -112,10 +108,7 @@ export default function EditTaskForm() {
   const onSubmit: SubmitHandler<TaskFormData> =
     async (data) => {
       try {
-        const response = await AxiosInstance.put(
-          endPoints.tasks.update(id),
-          data
-        );
+const response = await taskService.updateTask(id, data);
 
         toast.success(response.data.message);
 
@@ -131,11 +124,7 @@ export default function EditTaskForm() {
     };
 
   if (loading) {
-    return (
-      <div className="py-20 text-center">
-        Loading...
-      </div>
-    );
+    return <FormSkeleton />;
   }
 
   return (

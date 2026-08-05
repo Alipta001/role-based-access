@@ -5,8 +5,7 @@ import { useRouter } from "next/navigation";
 import { Eye, EyeOff, Loader2, Lock } from "lucide-react";
 import { toast } from "react-toastify";
 
-import { AxiosInstance } from "@/api/axios/axios";
-import { endPoints } from "@/api/endpoints/endPoints";
+import { authService } from "@/api/services";
 
 export default function ChangePasswordForm() {
   const router = useRouter();
@@ -41,13 +40,10 @@ export default function ChangePasswordForm() {
     try {
       setLoading(true);
 
-      const response = await AxiosInstance.patch(
-        endPoints.common.changePassword,
-        {
-          oldPassword: formData.oldPassword,
-          newPassword: formData.newPassword,
-        },
-      );
+      const response = await authService.changePassword({
+        oldPassword: formData.oldPassword,
+        newPassword: formData.newPassword,
+      });
 
       toast.success(response.data.message);
 

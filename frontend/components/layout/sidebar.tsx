@@ -70,7 +70,7 @@ export default function Sidebar({
               (item) =>
                 item.permission === "create_task" ||
                 item.permission === "read_task" ||
-                item.permission === "update_task"
+                item.permission === "update_task" 
             ),
           },
         ];

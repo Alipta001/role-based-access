@@ -1,8 +1,7 @@
 "use client";
 
-import { AxiosInstance } from "@/api/axios/axios";
-import { endPoints } from "@/api/endpoints/endPoints";
-import { usePathname, useRouter } from "next/navigation";
+import { authService } from "@/api/services";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
@@ -15,15 +14,48 @@ interface LoginFormProps {
   heading?: string;
   description?: string;
   buttonText?: string;
+  role?: "admin" | "manager" | "employee";
+  redirectPath?: string;
 }
 
 export default function LoginForm({
   heading = "Welcome Back",
   description = "Enter your credentials to continue",
   buttonText = "Sign In",
+  role,
+  redirectPath,
 }: LoginFormProps) {
   const router = useRouter();
-  const pathName = usePathname();
+
+  const getRedirectPath = () => {
+    if (redirectPath) {
+      return redirectPath;
+    }
+
+    switch (role) {
+      case "admin":
+        return "/adminDashboard";
+      case "manager":
+        return "/managerDashboard";
+      case "employee":
+        return "/employeeDashboard";
+      default:
+        return "/";
+    }
+  };
+
+  const getLoginHandler = async (data: LoginFormValues) => {
+    switch (role) {
+      case "admin":
+        return authService.loginAdmin(data);
+      case "manager":
+        return authService.loginManager(data);
+      case "employee":
+        return authService.loginEmployee(data);
+      default:
+        throw new Error("Invalid login role.");
+    }
+  };
 
   const {
     register,
@@ -33,71 +65,17 @@ export default function LoginForm({
 
   const onSubmit = async (data: LoginFormValues) => {
     try {
-      let response;
+      const response = await getLoginHandler(data);
 
-      switch (pathName) {
-        case "/":
-        case "/adminLogin":
-          response = await AxiosInstance.post(
-            endPoints.admin.auth.login,
-            data,
-            {
-              withCredentials: true,
-            }
-          );
+      toast.success(response.data.message);
 
-          toast.success(response.data.message);
-
-setTimeout(() => {
-  router.push("/adminDashboard");
-}, 1000);
-          return;
-
-        case "/managerLogin":
-          response = await AxiosInstance.post(
-            endPoints.manager.auth.login,
-            data,
-            {
-              withCredentials: true,
-            }
-          );
-
-          toast.success(response.data.message);
-
-setTimeout(() => {
-  if (response.data.data.firstLogin) {
-    router.push("/changePassword");
-  } else {
-    router.push("/managerDashboard");
-  }
-}, 1000);
-
-          return;
-
-        case "/employeeLogin":
-          response = await AxiosInstance.post(
-            endPoints.employee.auth.login,
-            data,
-            {
-              withCredentials: true,
-            }
-          );
-
-          toast.success(response.data.message);
-
-setTimeout(() => {
-  if (response.data.data.firstLogin) {
-    router.push("/changePassword");
-  } else {
-    router.push("/employeeDashboard");
-  }
-}, 1000);
-
-          return;
-
-        default:
-          toast.error("Invalid login page.");
-      }
+      setTimeout(() => {
+        if (response.data.data?.firstLogin) {
+          router.push("/changePassword");
+        } else {
+          router.push(getRedirectPath());
+        }
+      }, 1000);
     } catch (error: any) {
       console.error(error);
 

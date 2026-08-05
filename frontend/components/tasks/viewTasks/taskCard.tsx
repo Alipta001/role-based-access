@@ -19,7 +19,7 @@ interface TaskCardProps {
   onDelete?: (id: string) => void;
   onStatusChange?: (
     id: string,
-    status: string
+    status: TaskType["status"]
   ) => void;
 }
 
@@ -172,7 +172,7 @@ export default function TaskCard({
     onChange={(e) =>
       onStatusChange?.(
         task._id,
-        e.target.value
+        e.target.value as TaskType["status"]
       )
     }
     className="

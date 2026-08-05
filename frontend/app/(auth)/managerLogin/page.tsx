@@ -12,7 +12,7 @@ export default function ManagerLogin() {
         description="Enter your manager credentials."
         buttonText="Login as Manager"
         role="manager"
-        redirectPath="/manager"
+        redirectPath="/managerDashboard"
       />
     </LoginLayout>
   );

@@ -12,7 +12,7 @@ export default function EmployeeLogin() {
         description="Enter your employee credentials."
         buttonText="Login as Employee"
         role="employee"
-        redirectPath="/employee"
+        redirectPath="/employeeDashboard"
       />
     </LoginLayout>
   );
