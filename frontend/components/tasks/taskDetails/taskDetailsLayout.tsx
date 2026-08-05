@@ -1,22 +1,22 @@
-import RecordAttachments from "./taskAttachments";
-import RecordDescription from "./taskDescription";
-import RecordDetails from "./taskDetails";
-import RecordHeader from "./taskHeader";
-import RecordMetadata from "./taskMetadata";
+import TaskAttachments from "./taskAttachments";
+import TaskDescription from "./taskDescription";
+import TaskDetails from "./taskDetails";
+import TaskHeader from "./taskHeader";
+import TaskMetadata from "./taskMetadata";
 
-export default function RecordDetailsLayout() {
+export default function TaskDetailsLayout() {
   return (
     <div className="space-y-6">
-      <RecordHeader />
+      <TaskHeader />
 
-      <RecordDescription />
+      <TaskDescription />
 
       <div className="grid gap-6 xl:grid-cols-2">
-        <RecordDetails />
-        <RecordMetadata />
+        <TaskDetails />
+        <TaskMetadata />
       </div>
 
-      <RecordAttachments />
+      <TaskAttachments />
     </div>
   );
 }

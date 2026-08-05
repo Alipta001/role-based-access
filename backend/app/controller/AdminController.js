@@ -225,6 +225,39 @@ async getUsers(req, res) {
   }
 }
 
+//Get assignable users
+async getAssignableUsers(req, res) {
+  try {
+    const { role } = req.user;
+
+    let users = [];
+
+    if (role === "admin") {
+      users = await User.find({
+        role: { $in: ["manager", "employee"] },
+        status: "active",
+      }).select("name email role");
+    }
+
+    if (role === "manager") {
+      users = await User.find({
+        role: "employee",
+        status: "active",
+      }).select("name email role");
+    }
+
+    return res.status(200).json({
+      status: true,
+      data: users,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: false,
+      message: error.message,
+    });
+  }
+}
+
 //Toggle user status
 async toggleUserStatus(req, res) {
   try {

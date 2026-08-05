@@ -30,21 +30,21 @@ function LayoutContent({
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
-        const [usersResponse, recordsResponse] =
+        const [usersResponse, tasksResponse] =
           await Promise.all([
             AxiosInstance.get(
               endPoints.admin.users.list
             ),
             AxiosInstance.get(
-              endPoints.records.list
+              endPoints.tasks.list
             ),
           ]);
 
         const users =
           usersResponse.data.data || [];
 
-        const records =
-          recordsResponse.data.data || [];
+        const tasks =
+          tasksResponse.data.data || [];
 
         setStats({
           totalUsers: users.length,
@@ -59,7 +59,7 @@ function LayoutContent({
               user.role === "employee"
           ).length,
 
-          totalRecords: records.length,
+          totalTasks: tasks.length,
         });
       } catch (error) {
         console.error(error);

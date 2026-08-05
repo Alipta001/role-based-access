@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const recordSchema = new mongoose.Schema(
+const taskSchema = new mongoose.Schema(
   {
     title: {
       type: String,
@@ -74,4 +74,4 @@ const recordSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("Record", recordSchema);
+module.exports = mongoose.model("Task", taskSchema);

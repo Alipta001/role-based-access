@@ -19,7 +19,7 @@ export default function NotificationDropdown() {
   const notifications: Notification[] = [
     {
       id: 1,
-      title: "New Record Assigned",
+      title: "New Task Assigned",
       message: "A new task was shared with your team.",
       time: "2 min ago",
       unread: true,

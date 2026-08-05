@@ -81,10 +81,10 @@ export default function MobileMenu({ menu, role, onLogout }: MobileMenuProps) {
           </button>
         </div>
 
-        {/* Create Record */}
+        {/* Create Task */}
         <div className="p-5">
           <Link
-            href="/records/create"
+            href="/tasks/create"
             onClick={() => setOpen(false)}
             className="
               flex
@@ -104,7 +104,7 @@ export default function MobileMenu({ menu, role, onLogout }: MobileMenuProps) {
             "
           >
             <FiPlus />
-            Create Record
+            Create Task
           </Link>
         </div>
 

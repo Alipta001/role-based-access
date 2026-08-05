@@ -11,7 +11,7 @@ interface DashboardStats {
   totalUsers: number;
   totalManagers: number;
   totalEmployees: number;
-  totalRecords: number;
+  totalTasks: number;
 }
 
 interface DashboardContextType {
@@ -35,7 +35,7 @@ export function DashboardProvider({
     totalUsers: 0,
     totalManagers: 0,
     totalEmployees: 0,
-    totalRecords: 0,
+    totalTasks: 0,
   });
 
   return (

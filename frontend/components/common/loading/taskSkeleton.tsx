@@ -2,11 +2,11 @@
 
 import Skeleton from "./skeleton";
 
-interface RecordSkeletonProps {
+interface TaskSkeletonProps {
   count?: number;
 }
 
-export default function RecordSkeleton({ count = 6 }: RecordSkeletonProps) {
+export default function TaskSkeleton({ count = 6 }: TaskSkeletonProps) {
   return (
     <div
       className="

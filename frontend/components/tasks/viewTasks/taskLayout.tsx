@@ -4,7 +4,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-export default function RecordLayout({
+export default function TaskLayout({
   children,
 }: Props) {
   return (

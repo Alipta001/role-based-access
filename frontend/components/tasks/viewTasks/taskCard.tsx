@@ -13,8 +13,8 @@ import {
 import DeleteModal from "@/components/common/deleteModal";
 import { TaskType } from "@/types/task";
 
-interface RecordCardProps {
-  record: TaskType;
+interface TaskCardProps {
+  task: TaskType;
   role: "admin" | "manager" | "employee";
   onDelete?: (id: string) => void;
   onStatusChange?: (
@@ -23,17 +23,17 @@ interface RecordCardProps {
   ) => void;
 }
 
-export default function RecordCard({
-  record,
+export default function TaskCard({
+  task,
   role,
   onDelete,
   onStatusChange,
-}: RecordCardProps) {
+}: TaskCardProps) {
   const [isDeleteModalOpen, setIsDeleteModalOpen] =
     useState(false);
 
   const getStatusColor = () => {
-    switch (record.status) {
+    switch (task.status) {
       case "Completed":
         return "bg-green-100 text-green-700";
 
@@ -49,7 +49,7 @@ export default function RecordCard({
   };
 
   const getPriorityColor = () => {
-    switch (record.priority) {
+    switch (task.priority) {
       case "Critical":
         return "bg-red-100 text-red-700";
 
@@ -64,8 +64,8 @@ export default function RecordCard({
     }
   };
 
-  const formattedDate = record.due_date
-    ? new Date(record.due_date).toLocaleDateString(
+  const formattedDate = task.due_date
+    ? new Date(task.due_date).toLocaleDateString(
         "en-IN",
         {
           day: "2-digit",
@@ -76,7 +76,7 @@ export default function RecordCard({
     : "No due date";
 
   const handleDelete = () => {
-    onDelete?.(record._id);
+    onDelete?.(task._id);
     setIsDeleteModalOpen(false);
   };
 
@@ -106,7 +106,7 @@ export default function RecordCard({
         <div className="flex items-start justify-between gap-4">
           <div className="space-y-2">
             <h3 className="line-clamp-1 text-lg font-bold text-slate-800">
-              {record.title}
+              {task.title}
             </h3>
 
             <span
@@ -120,7 +120,7 @@ export default function RecordCard({
                 ${getStatusColor()}
               `}
             >
-              {record.status}
+              {task.status}
             </span>
           </div>
 
@@ -134,14 +134,14 @@ export default function RecordCard({
               ${getPriorityColor()}
             `}
           >
-            {record.priority}
+            {task.priority}
           </span>
         </div>
 
         {/* Description */}
 
         <p className="mt-5 line-clamp-3 text-sm leading-6 text-slate-500">
-          {record.description}
+          {task.description}
         </p>
 
         {/* Details */}
@@ -151,7 +151,7 @@ export default function RecordCard({
             <FiUser size={16} />
 
             <span>
-              {record.assigned_to?.name ||
+              {task.assigned_to?.name ||
                 "Not assigned"}
             </span>
           </div>
@@ -168,10 +168,10 @@ export default function RecordCard({
   </label>
 
   <select
-    value={record.status}
+    value={task.status}
     onChange={(e) =>
       onStatusChange?.(
-        record._id,
+        task._id,
         e.target.value
       )
     }
@@ -211,7 +211,7 @@ export default function RecordCard({
 
         <div className="mt-8 flex flex-wrap gap-3">
           <Link
-            href={`/tasks/view/${record._id}`}
+            href={`/tasks/view/${task._id}`}
             className="
               inline-flex
               items-center
@@ -233,7 +233,7 @@ export default function RecordCard({
 
           {role !== "employee" && (
             <Link
-              href={`/tasks/update/${record._id}`}
+              href={`/tasks/update/${task._id}`}
               className="
                 inline-flex
                 items-center
@@ -288,8 +288,8 @@ export default function RecordCard({
 
       <DeleteModal
         isOpen={isDeleteModalOpen}
-        title="Delete Record"
-        description={`Are you sure you want to delete "${record.title}"? This action cannot be undone.`}
+        title="Delete Task"
+        description={`Are you sure you want to delete "${task.title}"? This action cannot be undone.`}
         onClose={() =>
           setIsDeleteModalOpen(false)
         }

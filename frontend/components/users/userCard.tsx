@@ -200,20 +200,31 @@ export default function UserCard({
       </div>
 
       <DeleteModal
-        isOpen={openModal}
-        title={
-          user.status === "active"
-            ? "Deactivate User"
-            : "Activate User"
-        }
-        description={`Are you sure you want to ${
-          user.status === "active"
-            ? "deactivate"
-            : "activate"
-        } ${user.name}?`}
-        onClose={() => setOpenModal(false)}
-        onConfirm={handleToggleStatus}
-      />
+  isOpen={openModal}
+  loading={loading}
+  title={
+    user.status === "active"
+      ? "Deactivate User"
+      : "Activate User"
+  }
+  description={`Are you sure you want to ${
+    user.status === "active"
+      ? "deactivate"
+      : "activate"
+  } ${user.name}?`}
+  confirmText={
+    user.status === "active"
+      ? "Deactivate"
+      : "Activate"
+  }
+  loadingText={
+    user.status === "active"
+      ? "Deactivating..."
+      : "Activating..."
+  }
+  onClose={() => setOpenModal(false)}
+  onConfirm={handleToggleStatus}
+/>
     </>
   );
 }

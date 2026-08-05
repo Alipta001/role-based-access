@@ -5,18 +5,19 @@ import { useEffect, useMemo, useState } from "react";
 import { AxiosInstance } from "@/api/axios/axios";
 import { endPoints } from "@/api/endpoints/endPoints";
 
-import RecordHeader from "./viewRecords/recordHeader";
-import RecordFilter from "./viewRecords/recordFilter";
-import RecordGrid from "./viewRecords/recordGrid";
-import RecordEmpty from "./viewRecords/recordEmpty";
-import RecordSkeleton from "../common/loading/recordSkeleton";
-import Pagination from "../common/pagination";
 
-import { TaskType } from "@/types/record";
+
 import { toast } from "react-toastify";
+import TaskSkeleton from "../common/loading/taskSkeleton";
+import TaskHeader from "./taskDetails/taskHeader";
+import TaskFilter from "./viewTasks/taskFilter";
+import TaskGrid from "./viewTasks/taskGrid";
+import Pagination from "../common/pagination";
+import TaskEmpty from "./viewTasks/taskEmpty";
+import { TaskType } from "@/types/task";
 
-export default function RecordsContainer() {
-  const [records, setRecords] = useState<TaskType[]>([]);
+export default function TasksContainer() {
+  const [tasks, setTasks] = useState<TaskType[]>([]);
   const [loading, setLoading] = useState(true);
 
   const [role, setRole] = useState<
@@ -29,7 +30,7 @@ export default function RecordsContainer() {
 
   const [currentPage, setCurrentPage] = useState(1);
 
-  const recordsPerPage = 6;
+  const tasksPerPage = 6;
 
 useEffect(() => {
   const fetchData = async () => {
@@ -44,18 +45,21 @@ useEffect(() => {
 
       const endpoint =
         userRole === "employee"
-          ? endPoints.records.assignedToUser
-          : endPoints.records.list;
+          ? endPoints.tasks.assignedToUser
+          : endPoints.tasks.list;
 
-      const recordResponse = await AxiosInstance.get(
+      const taskResponse = await AxiosInstance.get(
         endpoint
       );
 
-      setRecords(recordResponse.data.data || []);
-    } catch (error) {
+      setTasks(taskResponse.data.data || []);
+    } catch (error: any) {
       console.error(error);
 
-      toast.error("Failed to fetch records.");
+      toast.error(
+        error?.response?.data?.message ||
+          "Failed to fetch tasks."
+      );
     } finally {
       setLoading(false);
     }
@@ -68,18 +72,18 @@ useEffect(() => {
     setCurrentPage(1);
   }, [search, status, priority]);
 
-  const filteredRecords = useMemo(() => {
-    return records.filter((record) => {
-      const titleMatch = record.title
+  const filteredTasks = useMemo(() => {
+    return tasks.filter((task) => {
+      const titleMatch = task.title
         .toLowerCase()
         .includes(search.toLowerCase());
 
       const statusMatch =
-        !status || record.status === status;
+        !status || task.status === status;
 
       const priorityMatch =
         !priority ||
-        record.priority === priority;
+        task.priority === priority;
 
       return (
         titleMatch &&
@@ -87,39 +91,39 @@ useEffect(() => {
         priorityMatch
       );
     });
-  }, [records, search, status, priority]);
+  }, [tasks, search, status, priority]);
 
   const totalPages = Math.ceil(
-    filteredRecords.length / recordsPerPage
+    filteredTasks.length / tasksPerPage
   );
 
-  const paginatedRecords = filteredRecords.slice(
-    (currentPage - 1) * recordsPerPage,
-    currentPage * recordsPerPage
+  const paginatedTasks = filteredTasks.slice(
+    (currentPage - 1) * tasksPerPage,
+    currentPage * tasksPerPage
   );
 
-  const deleteRecord = async (id: string) => {
+  const deleteTask = async (id: string) => {
   try {
     const response = await AxiosInstance.delete(
-      endPoints.records.delete(id)
+      endPoints.tasks.delete(id)
     );
 
-    setRecords((previous) =>
+    setTasks((previous) =>
       previous.filter(
-        (record) => record._id !== id
+        (task) => task._id !== id
       )
     );
 
     toast.success(
       response.data.message ||
-        "Record deleted successfully."
+        "Task deleted successfully."
     );
   } catch (error: any) {
     console.error(error);
 
     toast.error(
       error?.response?.data?.message ||
-        "Unable to delete record."
+        "Unable to delete task."
     );
   }
 };
@@ -130,20 +134,20 @@ const updateStatus = async (
 ) => {
   try {
     const response = await AxiosInstance.patch(
-      endPoints.records.updateStatus(id),
+      endPoints.tasks.updateStatus(id),
       {
         status,
       }
     );
 
-    setRecords((previous) =>
-      previous.map((record) =>
-        record._id === id
+    setTasks((previous) =>
+      previous.map((task) =>
+        task._id === id
           ? {
-              ...record,
+              ...task,
               status,
             }
-          : record
+          : task
       )
     );
 
@@ -162,31 +166,31 @@ const updateStatus = async (
 };
 
   if (loading) {
-    return <RecordSkeleton />;
+    return <TaskSkeleton />;
   }
 
   return (
     <div className="space-y-6">
-      <RecordHeader
+      <TaskHeader
         role={role}
         search={search}
         setSearch={setSearch}
-        totalRecords={filteredRecords.length}
+        totalTasks={filteredTasks.length}
       />
 
-      <RecordFilter
+      <TaskFilter
         status={status}
         priority={priority}
         setStatus={setStatus}
         setPriority={setPriority}
       />
 
-      {filteredRecords.length ? (
+      {filteredTasks.length ? (
         <>
-          <RecordGrid
-  records={paginatedRecords}
+          <TaskGrid
+  tasks={paginatedTasks}
   role={role}
-  onDelete={deleteRecord}
+  onDelete={deleteTask}
   onStatusChange={updateStatus}
 />
 
@@ -197,7 +201,7 @@ const updateStatus = async (
           />
         </>
       ) : (
-        <RecordEmpty />
+        <TaskEmpty />
       )}
     </div>
   );

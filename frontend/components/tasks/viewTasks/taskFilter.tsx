@@ -1,18 +1,18 @@
 "use client";
 
-interface RecordFilterProps {
+interface TaskFilterProps {
   status: string;
   priority: string;
   setStatus: (value: string) => void;
   setPriority: (value: string) => void;
 }
 
-export default function RecordFilter({
+export default function TaskFilter({
   status,
   priority,
   setStatus,
   setPriority,
-}: RecordFilterProps) {
+}: TaskFilterProps) {
   return (
     <div className="grid gap-4 md:grid-cols-2">
       <select

@@ -1,5 +1,5 @@
-import RecordsContainer from "@/components/tasks/recordsContainer";
+import TasksContainer from "@/components/tasks/taskContainer";
 
-export default function RecordsPage() {
-  return <RecordsContainer />;
+export default function TasksPage() {
+  return <TasksContainer />;
 }

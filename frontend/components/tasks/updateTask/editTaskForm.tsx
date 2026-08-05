@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import { AxiosInstance } from "@/api/axios/axios";
 import { endPoints } from "@/api/endpoints/endPoints";
 
-type RecordFormData = {
+type TaskFormData = {
   title: string;
   description: string;
   status: string;
@@ -37,7 +37,7 @@ export default function EditTaskForm() {
     handleSubmit,
     reset,
     formState: { errors, isSubmitting },
-  } = useForm<RecordFormData>({
+  } = useForm<TaskFormData>({
     defaultValues: {
       status: "Pending",
       priority: "Medium",
@@ -62,32 +62,32 @@ export default function EditTaskForm() {
       }
     };
 
-    const fetchRecord = async () => {
+    const fetchTask = async () => {
       try {
         const response = await AxiosInstance.get(
-          endPoints.records.getById(id)
+          endPoints.tasks.getById(id)
         );
 
-        const record = response.data.data;
+        const task = response.data.data;
 
         reset({
-          title: record.title ?? "",
-          description: record.description ?? "",
-          status: record.status ?? "Pending",
-          priority: record.priority ?? "Medium",
+          title: task.title ?? "",
+          description: task.description ?? "",
+          status: task.status ?? "Pending",
+          priority: task.priority ?? "Medium",
           assigned_to:
-            record.assigned_to?._id ??
-            record.assigned_to ??
+            task.assigned_to?._id ??
+            task.assigned_to ??
             "",
-          due_date: record.due_date
-            ? new Date(record.due_date)
+          due_date: task.due_date
+            ? new Date(task.due_date)
                 .toISOString()
                 .split("T")[0]
             : "",
         });
       } catch (error) {
         console.error(error);
-        toast.error("Unable to fetch record.");
+        toast.error("Unable to fetch task.");
       }
     };
 
@@ -97,7 +97,7 @@ export default function EditTaskForm() {
 
         await Promise.all([
           fetchEmployees(),
-          fetchRecord(),
+          fetchTask(),
         ]);
       } finally {
         setLoading(false);
@@ -109,11 +109,11 @@ export default function EditTaskForm() {
     }
   }, [id, reset]);
 
-  const onSubmit: SubmitHandler<RecordFormData> =
+  const onSubmit: SubmitHandler<TaskFormData> =
     async (data) => {
       try {
         const response = await AxiosInstance.put(
-          endPoints.records.update(id),
+          endPoints.tasks.update(id),
           data
         );
 
@@ -125,7 +125,7 @@ export default function EditTaskForm() {
 
         toast.error(
           error?.response?.data?.message ||
-            "Failed to update record."
+            "Failed to update task."
         );
       }
     };
@@ -152,7 +152,7 @@ export default function EditTaskForm() {
 
         <input
           type="text"
-          placeholder="Enter record title"
+          placeholder="Enter task title"
           {...register("title", {
             required: "Title is required",
           })}
@@ -175,7 +175,7 @@ export default function EditTaskForm() {
 
         <textarea
           rows={5}
-          placeholder="Describe the record"
+          placeholder="Describe the task"
           {...register("description")}
           className="w-full resize-none rounded-xl border border-slate-300 px-5 py-3 text-slate-700 outline-none transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100"
         />
@@ -284,7 +284,7 @@ export default function EditTaskForm() {
       >
         {isSubmitting
           ? "Updating..."
-          : "Update Record"}
+          : "Update Task"}
       </button>
     </form>
   );

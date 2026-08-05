@@ -14,7 +14,7 @@ export default function AdminDashboard() {
         </h1>
 
         <p className="mt-3 text-slate-500">
-          Manage users and records.
+          Manage users and tasks.
         </p>
       </div>
 
@@ -35,8 +35,8 @@ export default function AdminDashboard() {
         />
 
         <DashboardCard
-          title="Records"
-          value={stats.totalRecords}
+          title="Tasks"
+          value={stats.totalTasks}
         />
       </div>
     </div>

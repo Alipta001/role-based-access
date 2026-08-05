@@ -3,12 +3,12 @@
 import Link from "next/link";
 import { FiArrowLeft } from "react-icons/fi";
 
-export default function RecordHeader() {
+export default function TaskHeader() {
   return (
     <div className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
       <div className="flex items-center justify-between">
         <Link
-          href="/records"
+          href="/tasks"
           className="flex items-center gap-2 text-slate-600"
         >
           <FiArrowLeft />

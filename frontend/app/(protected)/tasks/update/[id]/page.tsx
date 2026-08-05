@@ -1,11 +1,11 @@
 import TaskFormLayout from "@/components/tasks/createTask/taskFormLayout";
 import EditTaskForm from "@/components/tasks/updateTask/editTaskForm";
 
-export default function UpdateRecordPage() {
+export default function UpdateTaskPage() {
   return (
     <TaskFormLayout
-      title="Update Record"
-      subtitle="Modify an existing record."
+      title="Update Task"
+      subtitle="Modify an existing task."
     >
       <EditTaskForm />
     </TaskFormLayout>

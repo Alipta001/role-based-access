@@ -2,13 +2,13 @@ const transporter = require("../config/emailConfig");
 
 const sendEmail = async (user, temporaryPassword) => {
   await transporter.sendMail({
-    from: `"RecordHub Team" <${process.env.EMAIL_FROM}>`,
+    from: `"TaskHub Team" <${process.env.EMAIL_FROM}>`,
     to: user.email,
-    subject: "Your RecordHub Account Has Been Created",
+    subject: "Your TaskHub Account Has Been Created",
 
     text: `Hello ${user.name},
 
-Your RecordHub account has been created successfully.
+Your TaskHub account has been created successfully.
 
 Login Credentials:
 
@@ -25,7 +25,7 @@ Login and access your dashboard using the credentials above.
 If you were not expecting this account, please contact your administrator.
 
 Regards,
-RecordHub Team`,
+TaskHub Team`,
 
     html: `
       <div style="margin:0;padding:40px 0;background:#f4f7fb;font-family:Arial,Helvetica,sans-serif;">
@@ -44,7 +44,7 @@ RecordHub Team`,
               <h1
                 style="margin:0;color:#ffffff;font-size:28px;font-weight:700;"
               >
-                RecordHub
+                TaskHub
               </h1>
 
               <p
@@ -68,7 +68,7 @@ RecordHub Team`,
               <p
                 style="color:#4b5563;font-size:15px;line-height:26px;"
               >
-                Your <strong>RecordHub</strong> account has been created successfully.
+                Your <strong>TaskHub</strong> account has been created successfully.
                 Below are your login credentials.
               </p>
 
@@ -158,7 +158,7 @@ RecordHub Team`,
               <p
                 style="margin:0;color:#6b7280;font-size:13px;"
               >
-                © ${new Date().getFullYear()} RecordHub. All Rights Reserved.
+                © ${new Date().getFullYear()} TaskHub. All Rights Reserved.
               </p>
 
               <p

@@ -5,23 +5,23 @@ const permissions = {
     "update_user",
     "delete_user",
 
-    "create_record",
-    "read_record",
-    "update_record",
-    "delete_record",
-    "update_record_status",
+    "create_task",
+    "read_task",
+    "update_task",
+    "delete_task",
+    "update_task_status",
   ],
 
   manager: [
-    "create_record",
-    "read_record",
-    "update_record",
-    "update_record_status",
+    "create_task",
+    "read_task",
+    "update_task",
+    "update_task_status",
   ],
 
   employee: [
-    "read_record",
-    "update_record_status",
+    "read_task",
+    "update_task_status",
   ],
 };
 

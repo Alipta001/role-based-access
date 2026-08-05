@@ -1,4 +1,4 @@
-export default function RecordMetadata() {
+export default function TaskMetadata() {
   return (
     <div className="rounded-3xl border border-slate-200 bg-white p-8">
       <h2 className="mb-6 text-xl font-semibold">
@@ -7,7 +7,7 @@ export default function RecordMetadata() {
 
       <div className="space-y-5">
         <Row
-          title="Record ID"
+          title="Task ID"
           value="65a9d1f5f82"
         />
 

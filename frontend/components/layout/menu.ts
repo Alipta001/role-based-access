@@ -19,10 +19,10 @@ export type DashboardRole = "admin" | "manager" | "employee";
 export type Permission =
   | "create_user"
   | "view_user"
-  | "create_record"
-  | "read_record"
-  | "update_record"
-  | "delete_record";
+  | "create_task"
+  | "read_task"
+  | "update_task"
+  | "delete_task";
 
 export interface MenuItem {
   name: string;
@@ -62,30 +62,30 @@ export const adminMenu: MenuItem[] = [
 
   {
     name: "Tasks",
-    href: "/tasks/viewTasks",
+    href: "/tasks/viewAllTasks",
     icon: FiClipboard,
-    permission: "read_record",
+    permission: "read_task",
   },
 
   {
     name: "Create Tasks",
     href: "/tasks/createTasks",
     icon: FiPlusCircle,
-    permission: "create_record",
+    permission: "create_task",
   },
 
   // {
-  //   name: "Update Record",
-  //   href: "/records/update",
+  //   name: "Update Task",
+  //   href: "/tasks/update",
   //   icon: FiEdit,
-  //   permission: "update_record",
+  //   permission: "update_task",
   // },
 
   // {
-  //   name: "Delete Record",
-  //   href: "/records/delete",
+  //   name: "Delete Task",
+  //   href: "/tasks/delete",
   //   icon: FiTrash2,
-  //   permission: "delete_record",
+  //   permission: "delete_task",
   // },
 
   {
@@ -115,25 +115,25 @@ export const managerMenu: MenuItem[] = [
   },
 
   {
-    name: "Records",
-    href: "/records/viewRecords",
+    name: "Tasks",
+    href: "/tasks/viewAllTasks",
     icon: FiClipboard,
-    permission: "read_record",
+    permission: "read_task",
   },
 
   {
-    name: "Create Record",
-    href: "/records/create",
+    name: "Create Task",
+    href: "/tasks/createTasks",
     icon: FiPlusCircle,
-    permission: "create_record",
+    permission: "create_task",
   },
 
-  {
-    name: "Update Record",
-    href: "/records/update",
-    icon: FiEdit,
-    permission: "update_record",
-  },
+  // {
+  //   name: "Update Task",
+  //   href: "/tasks/update",
+  //   icon: FiEdit,
+  //   permission: "update_task",
+  // },
 
   {
     name: "Reports",
@@ -150,10 +150,10 @@ export const employeeMenu: MenuItem[] = [
   },
 
   {
-    name: "My Records",
-    href: "/records/viewRecords",
+    name: "My Tasks",
+    href: "/tasks/viewAllTasks",
     icon: FiClipboard,
-    permission: "read_record",
+    permission: "read_task",
   },
 
   {

@@ -1,6 +1,6 @@
 import { FiPaperclip } from "react-icons/fi";
 
-export default function RecordAttachments() {
+export default function TaskAttachments() {
   return (
     <div className="rounded-3xl border border-slate-200 bg-white p-8">
       <h2 className="mb-6 text-xl font-semibold">

@@ -70,7 +70,7 @@ export default function Pagination({
           <p className="text-sm text-slate-500">
             Showing page <span className="font-semibold">{currentPage}</span> of{" "}
             <span className="font-semibold">{totalPages}</span> ({totalItems}{" "}
-            records)
+            tasks)
           </p>
         )}
 

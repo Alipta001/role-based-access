@@ -1,14 +1,14 @@
 "use client";
 
-interface RecordSortProps {
+interface TaskSortProps {
   sort: string;
   setSort: (value: string) => void;
 }
 
-export default function RecordSort({
+export default function TaskSort({
   sort,
   setSort,
-}: RecordSortProps) {
+}: TaskSortProps) {
   return (
     <select
       value={sort}

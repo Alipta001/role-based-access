@@ -1,20 +1,20 @@
-const Record = require("../models/record");
+const Task = require("../models/task");
 
-/** Create Record */
-class RecordController{
-    async createRecord(req, res){
+/** Create Task */
+class TaskController{
+    async createTask(req, res){
   try {
     const { title, description, status, priority, assigned_to, due_date } =
       req.body;
 
-    if (!title || !description) {
+    if (!title || !description || !assigned_to) {
       return res.status(422).json({
         status: false,
-        message: "Title and description are required.",
+        message: "Title, description and assigned-to are required.",
       });
     }
 
-    const record = await Record.create({
+    const task = await Task.create({
       title,
       description,
       status,
@@ -27,23 +27,23 @@ class RecordController{
 
     return res.status(201).json({
       status: true,
-      message: "Record created successfully.",
-      data: record,
+      message: "Task created successfully.",
+      data: task,
     });
   } catch (error) {
     console.error(error);
 
     return res.status(500).json({
       status: false,
-      message: "Failed to create record.",
+      message: "Failed to create task.",
     });
   }
 };
 
-/** Get All Records */
-async getAllRecords(req, res){
+/** Get All Tasks */
+async getAllTasks(req, res){
   try {
-    const records = await Record.find({
+    const tasks = await Task.find({
       isDeleted: false,
     })
       .populate("created_by", "name email role")
@@ -52,141 +52,148 @@ async getAllRecords(req, res){
 
     return res.status(200).json({
       status: true,
-      count: records.length,
-      data: records,
+      count: tasks.length,
+      data: tasks,
     });
   } catch (error) {
     console.error(error);
 
     return res.status(500).json({
       status: false,
-      message: "Failed to fetch records.",
+      message: "Failed to fetch tasks.",
     });
   }
 };
 
-/** Get Single Record */
-async getRecordById(req, res){
+/** Get Single Task */
+async getTaskById(req, res){
   try {
     const { id } = req.params;
 
-    const record = await Record.findOne({
+    const task = await Task.findOne({
       _id: id,
       isDeleted: false,
     })
       .populate("created_by", "name email role")
       .populate("assigned_to", "name email role");
 
-    if (!record) {
+    if (!task) {
       return res.status(404).json({
         status: false,
-        message: "Record not found.",
+        message: "Tasks not found.",
       });
     }
 
     return res.status(200).json({
       status: true,
-      data: record,
+      data: task,
     });
   } catch (error) {
     console.error(error);
 
     return res.status(500).json({
       status: false,
-      message: "Failed to fetch record.",
+      message: "Failed to fetch task.",
     });
   }
 };
 
-/*Get Record by user*/
-async getRecordByUser(req, res){
+/*Get Task by user*/
+async getTaskByUser(req, res){
   try{
     const id = req.user.id;
-    const records = await Record.find({
+    const tasks = await Task.find({
       assigned_to: id,
       isDeleted: false,
     })
     .populate("created_by", "name email role")
     .populate("assigned_to", "name email role")
     .sort({ created_at: -1 });
+
+    if (!tasks) {
+      return res.status(404).json({
+        status: false,
+        message: "Tasks not found.",
+      });
+    }
     return res.status(200).json({
       status: true,
-      count: records.length,
-      data: records,
+      count: tasks.length,
+      data: tasks,
     });
   }catch(error){
-    console.log("Error in getting records by user", error);
+    console.log("Error in getting tasks by user", error);
     return res.status(500).json({
       status: false,
-      message:"Failed to fetch records by user.",
+      message:"Failed to fetch tasks by user.",
     })
   }
 }
 
-/** Update Record */
-async updateRecord(req, res){
+/** Update Task */
+async updateTask(req, res){
   try {
     const { id } = req.params;
 
-    const record = await Record.findOne({
+    const task = await Task.findOne({
       _id: id,
       isDeleted: false,
     });
 
-    if (!record) {
+    if (!task) {
       return res.status(404).json({
         status: false,
-        message: "Record not found.",
+        message: "Task not found.",
       });
     }
 
-    record.title = req.body.title ?? record.title;
-    record.description = req.body.description ?? record.description;
-    record.status = req.body.status ?? record.status;
-    record.priority = req.body.priority ?? record.priority;
-    record.assigned_to = req.body.assigned_to ?? record.assigned_to;
-    record.due_date = req.body.due_date ?? record.due_date;
+    task.title = req.body.title ?? task.title;
+    task.description = req.body.description ?? task.description;
+    task.status = req.body.status ?? task.status;
+    task.priority = req.body.priority ?? task.priority;
+    task.assigned_to = req.body.assigned_to ?? task.assigned_to;
+    task.due_date = req.body.due_date ?? task.due_date;
 
-    record.updated_by = req.user.id;
+    task.updated_by = req.user.id;
 
-    await record.save();
+    await task.save();
 
     return res.status(200).json({
       status: true,
-      message: "Record updated successfully.",
-      data: record,
+      message: "Task updated successfully.",
+      data: task,
     });
   } catch (error) {
     console.error(error);
 
     return res.status(500).json({
       status: false,
-      message: "Failed to update record.",
+      message: "Failed to update task.",
     });
   }
 };
 
-/**Update status of the record */
+/**Update status of the task */
 async updateStatus(req, res) {
   try {
     const { id } = req.params;
     const { status } = req.body;
 
-    const record = await Record.findOne({
+    const task = await Task.findOne({
       _id: id,
       isDeleted: false,
     });
 
-    if (!record) {
+    if (!task) {
       return res.status(404).json({
         status: false,
-        message: "Record not found.",
+        message: "Task not found.",
       });
     }
 
     if (
       req.user.role === "employee" &&
-      record.assigned_to.toString() !== req.user.id
+      task.assigned_to.toString() !== req.user.id
     ) {
       return res.status(403).json({
         status: false,
@@ -194,14 +201,14 @@ async updateStatus(req, res) {
       });
     }
 
-    record.status = status;
+    task.status = status;
 
-    await record.save();
+    await task.save();
 
     return res.status(200).json({
       status: true,
       message: "Status updated successfully.",
-      data: record,
+      data: task,
     });
   } catch (error) {
     console.error(error);
@@ -213,41 +220,41 @@ async updateStatus(req, res) {
   }
 }
 
-/** Delete Record (Soft Delete) */
-async deleteRecord(req, res){
+/** Delete Task (Soft Delete) */
+async deleteTask(req, res){
   try {
     const { id } = req.params;
 
-    const record = await Record.findOne({
+    const task = await Task.findOne({
       _id: id,
       isDeleted: false,
     });
 
-    if (!record) {
+    if (!task) {
       return res.status(404).json({
         status: false,
-        message: "Record not found.",
+        message: "Task not found.",
       });
     }
 
-    record.isDeleted = true;
-    record.updated_by = req.user.id;
+    task.isDeleted = true;
+    task.updated_by = req.user.id;
 
-    await record.save();
+    await task.save();
 
     return res.status(200).json({
       status: true,
-      message: "Record deleted successfully.",
+      message: "Task deleted successfully.",
     });
   } catch (error) {
     console.error(error);
 
     return res.status(500).json({
       status: false,
-      message: "Failed to delete record.",
+      message: "Failed to delete task.",
     });
   }
 };
 }
 
-module.exports = new RecordController();
+module.exports = new TaskController();

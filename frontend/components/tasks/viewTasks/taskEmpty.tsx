@@ -2,15 +2,15 @@
 
 import { FiClipboard } from "react-icons/fi";
 
-interface RecordEmptyProps {
+interface TaskEmptyProps {
   title?: string;
   description?: string;
 }
 
-export default function RecordEmpty({
-  title = "No Records Found",
-  description = "Create your first record to get started.",
-}: RecordEmptyProps) {
+export default function TaskEmpty({
+  title = "No Tasks Found",
+  description = "Create your first task to get started.",
+}: TaskEmptyProps) {
   return (
     <div
       className="

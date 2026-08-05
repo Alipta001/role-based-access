@@ -8,7 +8,7 @@ interface SearchBarProps {
 }
 
 export default function SearchBar({
-  placeholder = "Search records...",
+  placeholder = "Search tasks...",
   onChange,
 }: SearchBarProps) {
   return (

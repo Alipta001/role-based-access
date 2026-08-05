@@ -2977,7 +2977,7 @@
 .bx-video-plus:before {
   content: "\ec31";
 }
-.bx-video-recording:before {
+.bx-video-tasking:before {
   content: "\ec32";
 }
 .bx-voicemail:before {
@@ -4837,7 +4837,7 @@
 .bxs-video-plus:before {
   content: "\ee9d";
 }
-.bxs-video-recording:before {
+.bxs-video-tasking:before {
   content: "\ee9e";
 }
 .bxs-videos:before {

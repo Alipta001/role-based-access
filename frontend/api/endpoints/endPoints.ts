@@ -17,6 +17,7 @@ export const endPoints = {
     users: {
       add: "/admin/add-user",
       list: "/admin/users",
+      assignableUsers: "/admin/assignable-users",
       toggleUserStatus: (id: string) => `/admin/user/toggleUserStatus/${id}`,
       getById: (id: string) => `/admin/users/${id}`,
       update: (id: string) => `/admin/users/${id}`,
@@ -36,14 +37,14 @@ export const endPoints = {
     },
   },
 
-  records: {
-    create: "/records/create",
-    list: "/records/list",
-    assignedToUser: "/records/assigned",
-    getById: (id: string) => `/records/${id}`,
-    update: (id: string) => `/records/${id}`,
-    updateStatus: (id:string)=> `/records/${id}/status`,
-    delete: (id: string) => `/records/${id}`,
+  tasks: {
+    create: "/tasks/create",
+    list: "/tasks/list",
+    assignedToUser: "/tasks/assigned",
+    getById: (id: string) => `/tasks/${id}`,
+    update: (id: string) => `/tasks/${id}`,
+    updateStatus: (id: string) => `/tasks/${id}/status`,
+    delete: (id: string) => `/tasks/${id}`,
   },
 
   products: {

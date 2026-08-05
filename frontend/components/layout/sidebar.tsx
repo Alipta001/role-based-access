@@ -51,13 +51,13 @@ export default function Sidebar({
             ),
           },
           {
-            title: "Records",
+            title: "Tasks",
             items: menu.filter(
               (item) =>
-                item.permission === "create_record" ||
-                item.permission === "read_record" ||
-                item.permission === "update_record" ||
-                item.permission === "delete_record"
+                item.permission === "create_task" ||
+                item.permission === "read_task" ||
+                item.permission === "update_task" ||
+                item.permission === "delete_task"
             ),
           },
         ];
@@ -68,9 +68,9 @@ export default function Sidebar({
             title: "Workspace",
             items: menu.filter(
               (item) =>
-                item.permission === "create_record" ||
-                item.permission === "read_record" ||
-                item.permission === "update_record"
+                item.permission === "create_task" ||
+                item.permission === "read_task" ||
+                item.permission === "update_task"
             ),
           },
         ];
@@ -79,7 +79,7 @@ export default function Sidebar({
         return [
           {
             title: "Workspace",
-            items: menu.filter((item) => item.permission === "read_record"),
+            items: menu.filter((item) => item.permission === "read_task"),
           },
         ];
     }

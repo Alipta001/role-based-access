@@ -35,7 +35,7 @@ export default function ManagerDashboard() {
         </h1>
 
         <p className="mt-3 text-slate-500">
-          Manage records, teams, and reports.
+          Manage tasks, teams, and reports.
         </p>
       </div>
     </div>

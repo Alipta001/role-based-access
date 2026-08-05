@@ -1,12 +1,12 @@
 "use client";
 
 import { TaskType } from "@/types/task";
-import RecordCard from "./taskCard";
-import RecordEmpty from "./taskEmpty";
+import TaskCard from "./taskCard";
+import TaskEmpty from "./taskEmpty";
 
 
-interface RecordGridProps {
-  records: TaskType[];
+interface TaskGridProps {
+  tasks: TaskType[];
   role: "admin" | "manager" | "employee";
   onDelete?: (id: string) => void;
   onStatusChange?: (
@@ -15,14 +15,14 @@ interface RecordGridProps {
   ) => void;
 }
 
-export default function RecordGrid({
-  records,
+export default function TaskGrid({
+  tasks,
   role,
   onDelete,
   onStatusChange,
-}: RecordGridProps) {
-  if (!records.length) {
-    return <RecordEmpty />;
+}: TaskGridProps) {
+  if (!tasks.length) {
+    return <TaskEmpty />;
   }
 
   return (
@@ -35,10 +35,10 @@ export default function RecordGrid({
         2xl:grid-cols-3
       "
     >
-      {records.map((record) => (
-        <RecordCard
-          key={record._id}
-          record={record}
+      {tasks.map((task) => (
+        <TaskCard
+          key={task._id}
+          task={task}
           role={role}
           onDelete={onDelete}
           onStatusChange={onStatusChange}
