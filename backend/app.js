@@ -61,7 +61,7 @@ app.use('/uploads',express.static('uploads'))
 
 
 //Common Routes
-const commonRoutes= require("./app/routes/commonRoutes");
+const commonRoutes= require("./app/routes/commonRoutes/commonRoutes");
 app.use('/common', commonRoutes);
 //Admin Routes
 const adminRoutes= require("./app/routes/adminRoutes/adminRoutes");
@@ -75,9 +75,9 @@ app.use('/employee', employeeRoutes);
 const managerRoutes= require("./app/routes/managerRoutes/managerRoutes");
 app.use('/manager', managerRoutes);
 
-//record routes
-const RecordRoutes = require('./app/routes/recordRoutes');
-app.use('/records', RecordRoutes)
+//task routes
+const TaskRoutes = require('./app/routes/taskRoutes/taskRoutes');
+app.use('/tasks', TaskRoutes)
 
 const PORT=process.env.PORT || 4000
 app.listen(PORT,(error)=>{

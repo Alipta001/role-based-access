@@ -77,12 +77,12 @@ class CommonController {
         });
       }
 
-      const otpRecord = await OtpModel.findOne({
+      const otpTask = await OtpModel.findOne({
         userId: user._id,
         otp,
       });
 
-      if (!otpRecord) {
+      if (!otpTask) {
         return res.status(400).json({
           status: false,
           message: "Invalid OTP.",

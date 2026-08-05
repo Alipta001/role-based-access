@@ -225,6 +225,79 @@ async getUsers(req, res) {
   }
 }
 
+//Get assignable users
+async getAssignableUsers(req, res) {
+  try {
+    const { role } = req.user;
+
+    let users = [];
+
+    if (role === "admin") {
+      users = await User.find({
+        role: { $in: ["manager", "employee"] },
+        status: "active",
+      }).select("name email role");
+    }
+
+    if (role === "manager") {
+      users = await User.find({
+        role: "employee",
+        status: "active",
+      }).select("name email role");
+    }
+
+    return res.status(200).json({
+      status: true,
+      data: users,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: false,
+      message: error.message,
+    });
+  }
+}
+
+//Toggle user status
+async toggleUserStatus(req, res) {
+  try {
+    const { id } = req.params;
+
+    const user = await User.findById(id);
+
+    if (!user) {
+      return res.status(404).json({
+        status: false,
+        message: "User not found.",
+      });
+    }
+
+    user.status =
+      user.status === "active"
+        ? "inactive"
+        : "active";
+
+    if (user.status === "inactive") {
+      user.refreshToken = null;
+    }
+
+    await user.save();
+
+    return res.status(200).json({
+      status: true,
+      message: `User ${user.status} successfully.`,
+      data: user,
+    });
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).json({
+      status: false,
+      message: error.message,
+    });
+  }
+}
+
   //Logout
   async logout(req, res) {
     try {

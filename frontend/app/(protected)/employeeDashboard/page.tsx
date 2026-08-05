@@ -36,7 +36,7 @@ export default function EmployeeDashboard() {
         </h1>
 
         <p className="mt-3 text-slate-500">
-          View and manage assigned records.
+          View and manage assigned tasks.
         </p>
       </div>
     </div>

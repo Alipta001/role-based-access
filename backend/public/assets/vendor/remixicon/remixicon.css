@@ -1667,10 +1667,10 @@
 .ri-rainy-line:before { content: "\f056"; }
 .ri-reactjs-fill:before { content: "\f057"; }
 .ri-reactjs-line:before { content: "\f058"; }
-.ri-record-circle-fill:before { content: "\f059"; }
-.ri-record-circle-line:before { content: "\f05a"; }
-.ri-record-mail-fill:before { content: "\f05b"; }
-.ri-record-mail-line:before { content: "\f05c"; }
+.ri-task-circle-fill:before { content: "\f059"; }
+.ri-task-circle-line:before { content: "\f05a"; }
+.ri-task-mail-fill:before { content: "\f05b"; }
+.ri-task-mail-line:before { content: "\f05c"; }
 .ri-recycle-fill:before { content: "\f05d"; }
 .ri-recycle-line:before { content: "\f05e"; }
 .ri-red-packet-fill:before { content: "\f05f"; }
