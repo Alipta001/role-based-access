@@ -1,5 +1,4 @@
-import Image from "next/image";
-import RegisterPage from "./(auth)/register/page";
+
 import AuthNavbar from "@/components/layout/authNavbar";
 import AdminLogin from "./(auth)/adminLogin/page";
 

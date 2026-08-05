@@ -116,19 +116,15 @@ export default function ProtectedLayout({
     };
 
     getUser();
-  }, [router]);
+  }, []);
 
-  if (loading) {
-    return (
-      <div className="flex h-screen items-center justify-center">
-        Loading...
-      </div>
-    );
-  }
+if (loading) {
+  return null;
+}
 
-  if (!user) {
-    return null;
-  }
+if (!user) {
+  return null;
+}
 
   return (
     <DashboardProvider>
