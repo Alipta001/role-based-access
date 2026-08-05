@@ -11,7 +11,7 @@ interface TaskGridProps {
   onDelete?: (id: string) => void;
   onStatusChange?: (
     id: string,
-    status: string
+    status: TaskType["status"]
   ) => void;
 }
 

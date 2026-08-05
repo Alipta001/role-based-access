@@ -2,14 +2,10 @@
 
 import { useEffect, useMemo, useState } from "react";
 
-import { AxiosInstance } from "@/api/axios/axios";
-import { endPoints } from "@/api/endpoints/endPoints";
-
-
-
+import { taskService, authService } from "@/api/services";
 import { toast } from "react-toastify";
 import TaskSkeleton from "../common/loading/taskSkeleton";
-import TaskHeader from "./taskDetails/taskHeader";
+import TaskHeader from "./viewTasks/taskHeader";
 import TaskFilter from "./viewTasks/taskFilter";
 import TaskGrid from "./viewTasks/taskGrid";
 import Pagination from "../common/pagination";
@@ -33,41 +29,34 @@ export default function TasksContainer() {
   const tasksPerPage = 6;
 
 useEffect(() => {
-  const fetchData = async () => {
-    try {
-      const userResponse = await AxiosInstance.get(
-        endPoints.common.getUser
-      );
+    const fetchData = async () => {
+      try {
+        const userResponse = await authService.getCurrentUser();
 
-      const userRole = userResponse.data.data.role;
+        const userRole = userResponse.data.data.role;
 
-      setRole(userRole);
+        setRole(userRole);
 
-      const endpoint =
-        userRole === "employee"
-          ? endPoints.tasks.assignedToUser
-          : endPoints.tasks.list;
+        const taskResponse =
+          userRole === "employee"
+            ? await taskService.fetchAssignedTasks()
+            : await taskService.fetchAllTasks();
 
-      const taskResponse = await AxiosInstance.get(
-        endpoint
-      );
+        setTasks(taskResponse.data.data || []);
+      } catch (error: any) {
+        console.error(error);
 
-      setTasks(taskResponse.data.data || []);
-    } catch (error: any) {
-      console.error(error);
+        toast.error(
+          error?.response?.data?.message ||
+            "Failed to fetch tasks."
+        );
+      } finally {
+        setLoading(false);
+      }
+    };
 
-      toast.error(
-        error?.response?.data?.message ||
-          "Failed to fetch tasks."
-      );
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  fetchData();
-}, []);
-
+    fetchData();
+  }, []);
   useEffect(() => {
     setCurrentPage(1);
   }, [search, status, priority]);
@@ -104,14 +93,10 @@ useEffect(() => {
 
   const deleteTask = async (id: string) => {
   try {
-    const response = await AxiosInstance.delete(
-      endPoints.tasks.delete(id)
-    );
+    const response = await taskService.deleteTask(id);
 
     setTasks((previous) =>
-      previous.filter(
-        (task) => task._id !== id
-      )
+      previous.filter((task) => task._id !== id)
     );
 
     toast.success(
@@ -130,14 +115,12 @@ useEffect(() => {
 
 const updateStatus = async (
   id: string,
-  status: string
+  status: TaskType["status"]
 ) => {
   try {
-    const response = await AxiosInstance.patch(
-      endPoints.tasks.updateStatus(id),
-      {
-        status,
-      }
+    const response = await taskService.updateTaskStatus(
+      id,
+      status
     );
 
     setTasks((previous) =>

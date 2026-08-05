@@ -10,9 +10,7 @@ import {
   User,
 } from "lucide-react";
 import { toast } from "react-toastify";
-import { endPoints } from "@/api/endpoints/endPoints";
-import { AxiosInstance } from "@/api/axios/axios";
-import axios from "axios";
+import { authService, userService } from "@/api/services";
 
 export default function AddUserForm() {
   const [isLoading, setIsLoading] = useState(false);
@@ -27,21 +25,15 @@ export default function AddUserForm() {
     const formData = new FormData(form);
 
     const payload = {
-      name: formData.get("name"),
-      email: formData.get("email"),
-      phone: formData.get("phone"),
-      department: formData.get("department"),
-      role: formData.get("role"),
-    };
+      name: String(formData.get("name") || ""),
+      email: String(formData.get("email") || ""),
+      phone: String(formData.get("phone") || ""),
+      department: String(formData.get("department") || ""),
+      role: formData.get("role") === "manager" ? "manager" : "employee",
+    } as const;
 
     try {
-      const response = await AxiosInstance.post(
-        endPoints.admin.users.add,
-        payload,
-        {
-          withCredentials: true,
-        },
-      );
+      const response = await userService.createUser(payload);
 
       if (response.data.status) {
         toast.success(response.data.message);
@@ -55,8 +47,16 @@ export default function AddUserForm() {
     } catch (error: unknown) {
       console.error("Error creating user:", error);
 
-      if (axios.isAxiosError(error)) {
-        toast.error(error.response?.data?.message || "Failed to create user.");
+      if (
+        typeof error === "object" &&
+        error !== null &&
+        "response" in error &&
+        typeof (error as { response?: { data?: { message?: string } } }).response?.data?.message === "string"
+      ) {
+        toast.error(
+          (error as { response?: { data?: { message?: string } } }).response?.data?.message ||
+            "Failed to create user."
+        );
       } else {
         toast.error("Something went wrong. Please try again.");
       }

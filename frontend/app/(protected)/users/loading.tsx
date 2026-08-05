@@ -1,11 +1,9 @@
-import CardSkeleton from "@/components/common/loading/cardSkeleton";
+import UsersSkeleton from "@/components/common/loading/usersSkeleton";
 
-export default function UsersLoading() {
+export default function Loading() {
   return (
-    <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-      <CardSkeleton />
-      <CardSkeleton />
-      <CardSkeleton />
+    <div className="min-h-screen bg-slate-50 px-4 py-12">
+      <UsersSkeleton />
     </div>
   );
 }

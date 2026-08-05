@@ -34,7 +34,7 @@ interface UsersGridProps {
 
   onStatusChange: (
     id: string,
-    status: boolean
+    status: "active" | "inactive"
   ) => void;
 }
 

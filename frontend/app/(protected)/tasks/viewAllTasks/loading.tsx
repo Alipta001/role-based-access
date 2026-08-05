@@ -1,5 +1,9 @@
-import TaskSkeleton from "@/components/common/loading/taskSkeleton";
+import PageSkeleton from "@/components/common/loading/pageSkeleton";
 
-export default function ViewAllTasksLoading() {
-  return <TaskSkeleton count={6} />;
+export default function Loading() {
+  return (
+    <div className="min-h-screen bg-slate-50 px-4 py-12">
+      <PageSkeleton />
+    </div>
+  );
 }

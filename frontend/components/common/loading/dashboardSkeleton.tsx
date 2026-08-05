@@ -1,36 +1,27 @@
-"use client";
-
 import CardSkeleton from "./cardSkeleton";
 import TaskSkeleton from "./taskSkeleton";
 
 export default function DashboardSkeleton() {
   return (
     <div className="space-y-8">
-      <div
-        className="
-          rounded-[2rem]
-          border
-          border-slate-200
-          bg-white/90
-          p-8
-          shadow-[0_16px_40px_-20px_rgba(15,23,42,0.18)]
-        "
-      >
-        <div className="space-y-4">
-          <div className="h-8 w-64 animate-pulse rounded-xl bg-slate-200" />
+      <div className="grid gap-6 xl:grid-cols-4">
+        <CardSkeleton />
+        <CardSkeleton />
+        <CardSkeleton />
+        <CardSkeleton />
+      </div>
 
-          <div className="h-5 w-96 animate-pulse rounded-xl bg-slate-200" />
+      <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+        <div className="mb-6 flex items-center justify-between">
+          <div className="space-y-3">
+            <div className="h-8 w-48 rounded-full bg-slate-200 animate-pulse" />
+            <div className="h-4 w-80 rounded-full bg-slate-200 animate-pulse" />
+          </div>
+          <div className="h-10 w-28 rounded-full bg-slate-200 animate-pulse" />
         </div>
-      </div>
 
-      <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-        <CardSkeleton />
-        <CardSkeleton />
-        <CardSkeleton />
-        <CardSkeleton />
+        <TaskSkeleton count={3} />
       </div>
-
-      <TaskSkeleton count={3} />
     </div>
   );
 }

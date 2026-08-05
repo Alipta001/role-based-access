@@ -112,6 +112,7 @@ export const managerMenu: MenuItem[] = [
     name: "Dashboard",
     href: "/managerDashboard",
     icon: FiHome,
+    permission: "read_task",
   },
 
   {
@@ -147,6 +148,7 @@ export const employeeMenu: MenuItem[] = [
     name: "Dashboard",
     href: "/employeeDashboard",
     icon: FiHome,
+    permission: "read_task",
   },
 
   {
