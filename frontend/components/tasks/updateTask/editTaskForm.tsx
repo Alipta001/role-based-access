@@ -47,7 +47,7 @@ export default function EditTaskForm() {
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
-        const response = await userService.fetchUsers();
+        const response = await userService.fetchAssignableUsers();
 
         const users = Array.isArray(response.data.data)
           ? response.data.data
@@ -104,6 +104,7 @@ export default function EditTaskForm() {
       fetchData();
     }
   }, [id, reset]);
+  
 
   const onSubmit: SubmitHandler<TaskFormData> =
     async (data) => {

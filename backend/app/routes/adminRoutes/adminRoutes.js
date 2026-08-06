@@ -22,7 +22,7 @@ router.post(
 
 router.get(
   "/users",
-  AuthCheck(["admin"]),
+  AuthCheck(["admin", "manager"]),
   AdminController.getUsers
 );
 

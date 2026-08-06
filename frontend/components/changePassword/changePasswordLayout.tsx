@@ -19,7 +19,7 @@ export default function ChangePasswordLayout({
             <ShieldCheck size={30} />
           </div>
 
-          <h1 className="text-3xl font-bold">Change Password</h1>
+          <h1 className="text-3xl font-bold">Update Password</h1>
 
           <p className="mt-2 text-sm text-indigo-100">
             Update your password to keep your account secure.

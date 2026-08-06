@@ -48,6 +48,7 @@ export default function CreateTaskForm() {
     },
   });
 
+  // Fetch employees to whom task can be assinged
   const fetchEmployees = async () => {
     try {
       setLoadingEmployees(true);

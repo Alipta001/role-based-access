@@ -1,15 +1,17 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { toast } from "react-toastify";
 
 import { taskService, authService } from "@/api/services";
-import { toast } from "react-toastify";
+
 import TaskSkeleton from "../common/loading/taskSkeleton";
 import TaskHeader from "./viewTasks/taskHeader";
 import TaskFilter from "./viewTasks/taskFilter";
 import TaskGrid from "./viewTasks/taskGrid";
 import Pagination from "../common/pagination";
 import TaskEmpty from "./viewTasks/taskEmpty";
+
 import { TaskType } from "@/types/task";
 
 export default function TasksContainer() {
@@ -20,6 +22,10 @@ export default function TasksContainer() {
     "admin" | "manager" | "employee"
   >("employee");
 
+  const [viewMode, setViewMode] = useState<
+    "myTasks" | "teamTasks"
+  >("myTasks");
+
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("");
   const [priority, setPriority] = useState("");
@@ -28,19 +34,33 @@ export default function TasksContainer() {
 
   const tasksPerPage = 6;
 
-useEffect(() => {
+  useEffect(() => {
     const fetchData = async () => {
       try {
-        const userResponse = await authService.getCurrentUser();
+        setLoading(true);
 
-        const userRole = userResponse.data.data.role;
+        const userResponse =
+          await authService.getCurrentUser();
+
+        const userRole =
+          userResponse.data.data.role;
 
         setRole(userRole);
 
-        const taskResponse =
-          userRole === "employee"
-            ? await taskService.fetchAssignedTasks()
-            : await taskService.fetchAllTasks();
+        let taskResponse;
+
+        if (userRole === "employee") {
+          taskResponse =
+            await taskService.fetchAssignedTasks();
+        } else if (userRole === "manager") {
+          taskResponse =
+            viewMode === "myTasks"
+              ? await taskService.fetchAssignedTasks()
+              : await taskService.fetchAllTasks();
+        } else {
+          taskResponse =
+            await taskService.fetchAllTasks();
+        }
 
         setTasks(taskResponse.data.data || []);
       } catch (error: any) {
@@ -56,7 +76,8 @@ useEffect(() => {
     };
 
     fetchData();
-  }, []);
+  }, [viewMode]);
+
   useEffect(() => {
     setCurrentPage(1);
   }, [search, status, priority]);
@@ -92,61 +113,65 @@ useEffect(() => {
   );
 
   const deleteTask = async (id: string) => {
-  try {
-    const response = await taskService.deleteTask(id);
+    try {
+      const response =
+        await taskService.deleteTask(id);
 
-    setTasks((previous) =>
-      previous.filter((task) => task._id !== id)
-    );
+      setTasks((previous) =>
+        previous.filter(
+          (task) => task._id !== id
+        )
+      );
 
-    toast.success(
-      response.data.message ||
-        "Task deleted successfully."
-    );
-  } catch (error: any) {
-    console.error(error);
+      toast.success(
+        response.data.message ||
+          "Task deleted successfully."
+      );
+    } catch (error: any) {
+      console.error(error);
 
-    toast.error(
-      error?.response?.data?.message ||
-        "Unable to delete task."
-    );
-  }
-};
+      toast.error(
+        error?.response?.data?.message ||
+          "Unable to delete task."
+      );
+    }
+  };
 
-const updateStatus = async (
-  id: string,
-  status: TaskType["status"]
-) => {
-  try {
-    const response = await taskService.updateTaskStatus(
-      id,
-      status
-    );
+  const updateStatus = async (
+    id: string,
+    status: TaskType["status"]
+  ) => {
+    try {
+      const response =
+        await taskService.updateTaskStatus(
+          id,
+          status
+        );
 
-    setTasks((previous) =>
-      previous.map((task) =>
-        task._id === id
-          ? {
-              ...task,
-              status,
-            }
-          : task
-      )
-    );
+      setTasks((previous) =>
+        previous.map((task) =>
+          task._id === id
+            ? {
+                ...task,
+                status,
+              }
+            : task
+        )
+      );
 
-    toast.success(
-      response.data.message ||
-        "Status updated successfully."
-    );
-  } catch (error: any) {
-    console.error(error);
+      toast.success(
+        response.data.message ||
+          "Status updated successfully."
+      );
+    } catch (error: any) {
+      console.error(error);
 
-    toast.error(
-      error?.response?.data?.message ||
-        "Unable to update status."
-    );
-  }
-};
+      toast.error(
+        error?.response?.data?.message ||
+          "Unable to update status."
+      );
+    }
+  };
 
   if (loading) {
     return <TaskSkeleton />;
@@ -159,6 +184,8 @@ const updateStatus = async (
         search={search}
         setSearch={setSearch}
         totalTasks={filteredTasks.length}
+        viewMode={viewMode}
+        setViewMode={setViewMode}
       />
 
       <TaskFilter
@@ -171,11 +198,13 @@ const updateStatus = async (
       {filteredTasks.length ? (
         <>
           <TaskGrid
-  tasks={paginatedTasks}
-  role={role}
-  onDelete={deleteTask}
-  onStatusChange={updateStatus}
-/>
+            tasks={paginatedTasks}
+            role={role}
+            onDelete={deleteTask}
+            onStatusChange={
+              updateStatus
+            }
+          />
 
           <Pagination
             currentPage={currentPage}

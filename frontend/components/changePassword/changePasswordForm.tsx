@@ -1,17 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, EyeOff, Loader2, Lock } from "lucide-react";
 import { toast } from "react-toastify";
 
 import { authService } from "@/api/services";
+import { UserType } from "@/types/user";
 
 export default function ChangePasswordForm() {
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
-
+const [currentUser, setCurrentUser] = useState<UserType>();
   const [showCurrent, setShowCurrent] = useState(false);
   const [showNew, setShowNew] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
@@ -29,6 +30,17 @@ export default function ChangePasswordForm() {
     });
   };
 
+  //Current user function
+  const fetchCurrentUser = async()=>{
+    try{
+      const response = await authService.getCurrentUser();
+      setCurrentUser(response.data.data)
+    }catch(error){
+      console.log("Error in fetching the current logged in user: ",error);
+    }
+  }
+
+  //Change password function
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -47,6 +59,19 @@ export default function ChangePasswordForm() {
 
       toast.success(response.data.message);
 
+const userResponse =
+  await authService.getCurrentUser();
+
+const role = userResponse.data.data.role;
+
+if (role === "employee") {
+  router.push("/employeeDashboard");
+} else if (role === "manager") {
+  router.push("/managerDashboard");
+} else {
+  router.push("/adminDashboard");
+}
+
       setFormData({
         oldPassword: "",
         newPassword: "",
@@ -60,6 +85,10 @@ export default function ChangePasswordForm() {
       setLoading(false);
     }
   };
+
+  useEffect(()=>{
+    fetchCurrentUser();
+  },[])
 
   const inputClass =
     "h-12 w-full rounded-xl border border-slate-200 bg-white pl-12 pr-12 text-sm outline-none transition-all focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100";
@@ -169,11 +198,11 @@ export default function ChangePasswordForm() {
 
       <div className="rounded-2xl border border-indigo-100 bg-indigo-50 p-5">
         <p className="mb-3 font-semibold text-indigo-900">
-          Password Requirements
+          For Better Security Follow The Below Requirements
         </p>
 
         <ul className="space-y-2 text-sm text-slate-700">
-          <li>• At least 8 characters</li>
+          <li>• At least 6 characters</li>
           <li>• One uppercase letter</li>
           <li>• One lowercase letter</li>
           <li>• One number</li>

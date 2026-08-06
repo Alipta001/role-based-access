@@ -30,6 +30,15 @@ class ManagerController {
         });
       }
 
+       // Check whether the account is active
+      if (user.status === "inactive") {
+        return res.status(403).json({
+          status: false,
+          message:
+            "Employee account has been deactivated. Please contact the administrator.",
+        });
+      }
+
       const accessToken = jwt.sign(
         {
           id: user._id,

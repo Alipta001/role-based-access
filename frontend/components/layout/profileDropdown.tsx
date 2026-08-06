@@ -2,7 +2,14 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { FiChevronDown, FiUser, FiSettings, FiLogOut, FiLayout } from "react-icons/fi";
+import {
+  FiChevronDown,
+  FiUser,
+  FiSettings,
+  FiLogOut,
+  FiLayout,
+  FiKey,
+} from "react-icons/fi";
 
 interface ProfileDropdownProps {
   name: string;
@@ -11,13 +18,21 @@ interface ProfileDropdownProps {
   onLogout: () => void;
 }
 
-export default function ProfileDropdown({ name, email, role, onLogout }: ProfileDropdownProps) {
+export default function ProfileDropdown({
+  name,
+  email,
+  role,
+  onLogout,
+}: ProfileDropdownProps) {
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setOpen(false);
       }
     };
@@ -34,9 +49,18 @@ export default function ProfileDropdown({ name, email, role, onLogout }: Profile
     .slice(0, 2);
 
   const roleColor =
-    role === "admin" ? "bg-rose-100 text-rose-600" : role === "manager" ? "bg-sky-100 text-sky-600" : "bg-emerald-100 text-emerald-600";
+    role === "admin"
+      ? "bg-rose-100 text-rose-600"
+      : role === "manager"
+        ? "bg-sky-100 text-sky-600"
+        : "bg-emerald-100 text-emerald-600";
 
-  const dashboardHref = role === "admin" ? "/adminDashboard" : role === "manager" ? "/managerDashboard" : "/employeeDashboard";
+  const dashboardHref =
+    role === "admin"
+      ? "/adminDashboard"
+      : role === "manager"
+        ? "/managerDashboard"
+        : "/employeeDashboard";
 
   return (
     <div className="relative" ref={dropdownRef}>
@@ -52,7 +76,9 @@ export default function ProfileDropdown({ name, email, role, onLogout }: Profile
           <h4 className="text-sm font-semibold text-slate-800">{name}</h4>
           <p className="text-xs text-slate-500">{role}</p>
         </div>
-        <FiChevronDown className={`hidden text-slate-500 transition xl:block ${open ? "rotate-180" : ""}`} />
+        <FiChevronDown
+          className={`hidden text-slate-500 transition xl:block ${open ? "rotate-180" : ""}`}
+        />
       </button>
 
       {open && (
@@ -63,30 +89,49 @@ export default function ProfileDropdown({ name, email, role, onLogout }: Profile
                 {initials}
               </div>
               <div className="min-w-0">
-                <h3 className="truncate text-base font-semibold text-slate-900">{name}</h3>
+                <h3 className="truncate text-base font-semibold text-slate-900">
+                  {name}
+                </h3>
                 <p className="truncate text-sm text-slate-500">{email}</p>
-                <span className={`mt-2 inline-flex rounded-full px-2.5 py-1 text-[11px] font-semibold ${roleColor}`}>{role.toUpperCase()}</span>
+                <span
+                  className={`mt-2 inline-flex rounded-full px-2.5 py-1 text-[11px] font-semibold ${roleColor}`}
+                >
+                  {role.toUpperCase()}
+                </span>
               </div>
             </div>
           </div>
 
           <div className="space-y-1 p-2">
-            <Link href={dashboardHref} className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900">
+            <Link
+              href={dashboardHref}
+              className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900"
+            >
               <FiLayout size={16} />
               Dashboard
             </Link>
-            <Link href="/profile" className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900">
+            <Link
+              href="/profile"
+              className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900"
+            >
               <FiUser size={16} />
               Profile
             </Link>
-            <Link href="/settings" className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900">
-              <FiSettings size={16} />
-              Settings
+            <Link
+              href="/changePassword"
+              className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900"
+            >
+              <FiKey size={16} /> 
+              Change Password
             </Link>
           </div>
 
           <div className="border-t border-slate-200/80 p-2">
-            <button type="button" onClick={onLogout} className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-red-600 transition hover:bg-red-50">
+            <button
+              type="button"
+              onClick={onLogout}
+              className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-red-600 transition hover:bg-red-50"
+            >
               <FiLogOut size={16} />
               Logout
             </button>
