@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { authService } from "@/api/services";
+import { userService } from "@/api/services";
 
 export function useAuth() {
   const [user, setUser] = useState(null);
@@ -9,7 +9,7 @@ export function useAuth() {
 
   const fetchUser = async () => {
     try {
-      const response = await authService.getCurrentUser();
+      const response = await userService.getCurrentUser();
 
       setUser(response.data.data);
     } catch (error) {

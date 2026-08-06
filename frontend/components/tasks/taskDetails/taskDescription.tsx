@@ -1,4 +1,14 @@
-export default function TaskDescription() {
+"use client";
+
+import { TaskType } from "@/types/task";
+
+interface Props {
+  task: TaskType;
+}
+
+export default function TaskDescription({
+  task,
+}: Props) {
   return (
     <div className="rounded-3xl border border-slate-200 bg-white p-8">
       <h2 className="mb-4 text-xl font-semibold">
@@ -6,8 +16,7 @@ export default function TaskDescription() {
       </h2>
 
       <p className="leading-8 text-slate-600">
-        Detailed information about the task
-        appears here.
+        {task.description || "No description available."}
       </p>
     </div>
   );

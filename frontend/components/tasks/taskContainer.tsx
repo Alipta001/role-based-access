@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "react-toastify";
 
-import { taskService, authService } from "@/api/services";
+import { taskService, userService } from "@/api/services";
 
 import TaskSkeleton from "../common/loading/taskSkeleton";
 import TaskHeader from "./viewTasks/taskHeader";
@@ -40,7 +40,7 @@ export default function TasksContainer() {
         setLoading(true);
 
         const userResponse =
-          await authService.getCurrentUser();
+          await userService.getCurrentUser();
 
         const userRole =
           userResponse.data.data.role;

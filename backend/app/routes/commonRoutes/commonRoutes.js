@@ -29,6 +29,9 @@ router.post(
   CommonController.refreshToken
 );
 
+// Update user details
+router.put("/update-details", AuthCheck(["admin", "manager", "employee"]), CommonController.updateUserDetails)
+
 // logout
 router.post(
   "/logout",

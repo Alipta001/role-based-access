@@ -3,19 +3,18 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
-import { AxiosInstance } from "@/api/axios/axios";
-import { endPoints } from "@/api/endpoints/endPoints";
-
 import ProfileHeader from "./profileHeader";
 import ProfileInformation from "./profileInformation";
 import ProfileSecurity from "./profileSecurity";
 import EditProfileModal from "./editProfileModal";
 
 import { UserType } from "@/types/user";
+import { userService } from "@/api/services";
 
 export default function ProfileContainer() {
-  const [user, setUser] =
-    useState<UserType | null>(null);
+  const [user, setUser] = useState<UserType | null>(
+    null
+  );
 
   const [loading, setLoading] =
     useState(true);
@@ -26,52 +25,57 @@ export default function ProfileContainer() {
   const [openModal, setOpenModal] =
     useState(false);
 
-  useEffect(() => {
-    fetchProfile();
-  }, []);
-
   const fetchProfile = async () => {
     try {
-      const response = await AxiosInstance.get(
-        endPoints.common.getUser
-      );
+      setLoading(true);
+
+      const response =
+        await userService.getCurrentUser();
 
       setUser(response.data.data);
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
 
       toast.error(
-        "Unable to fetch profile."
+        error?.response?.data?.message ||
+          "Unable to fetch profile."
       );
     } finally {
       setLoading(false);
     }
   };
 
+  useEffect(() => {
+    fetchProfile();
+  }, []);
+
   const updateProfile = async (
-    data: any
+    data: Partial<UserType>
   ) => {
     try {
       setSaving(true);
 
       const response =
-        await AxiosInstance.patch(
-          endPoints.common.updateProfile,
+        await userService.updateUserDetails(
           data
         );
 
-      setUser(response.data.data);
-
       toast.success(
-        response.data.message
+        response.data.message ||
+          "Profile updated successfully."
       );
 
+      setUser(response.data.data);
+
       setOpenModal(false);
-    } catch (error) {
+
+      await fetchProfile();
+    } catch (error: any) {
       console.error(error);
 
       toast.error(
-        "Unable to update profile."
+        error?.response?.data?.message ||
+          "Unable to update profile."
       );
     } finally {
       setSaving(false);
@@ -87,7 +91,11 @@ export default function ProfileContainer() {
   }
 
   if (!user) {
-    return null;
+    return (
+      <div className="rounded-3xl bg-white p-8 shadow-sm">
+        User not found.
+      </div>
+    );
   }
 
   return (
@@ -95,19 +103,13 @@ export default function ProfileContainer() {
       <div className="space-y-6">
         <ProfileHeader
           user={user}
-          onEdit={() =>
-            setOpenModal(true)
-          }
+          onEdit={() => setOpenModal(true)}
         />
 
         <div className="grid gap-6 lg:grid-cols-2">
-          <ProfileInformation
-            user={user}
-          />
+          <ProfileInformation user={user} />
 
-          <ProfileSecurity
-            user={user}
-          />
+          <ProfileSecurity user={user} />
         </div>
       </div>
 
@@ -115,9 +117,7 @@ export default function ProfileContainer() {
         open={openModal}
         loading={saving}
         user={user}
-        onClose={() =>
-          setOpenModal(false)
-        }
+        onClose={() => setOpenModal(false)}
         onSubmit={updateProfile}
       />
     </>

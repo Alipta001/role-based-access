@@ -9,7 +9,7 @@ import DashboardSkeleton from "@/components/common/loading/dashboardSkeleton";
 import { DashboardProvider } from "@/context/dashboardContext";
 import { useDashboard } from "@/context/dashboardContext";
 
-import { authService, dashboardService } from "@/api/services";
+import {dashboardService, userService } from "@/api/services";
 
 interface User {
   _id: string;
@@ -86,7 +86,7 @@ export default function ProtectedLayout({
   useEffect(() => {
     const getUser = async () => {
       try {
-        const response = await authService.getCurrentUser();
+        const response = await userService.getCurrentUser();
 
         setUser(response.data.data);
       } catch (error) {

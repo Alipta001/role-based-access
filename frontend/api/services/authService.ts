@@ -40,9 +40,9 @@ export async function registerAdmin(data: RegisterPayload) {
   return AxiosInstance.post(endPoints.admin.auth.register, data);
 }
 
-export async function getCurrentUser() {
-  return AxiosInstance.get(endPoints.common.getUser);
-}
+// export async function getCurrentUser() {
+//   return AxiosInstance.get(endPoints.common.getUser);
+// }
 
 export async function logout() {
   return AxiosInstance.post(endPoints.common.logout);

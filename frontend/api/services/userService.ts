@@ -29,9 +29,12 @@ export async function toggleUserStatus(id: string) {
 export async function getUserById(id: string) {
   return AxiosInstance.get(endPoints.admin.users.getById(id));
 }
+export async function getCurrentUser() {
+  return AxiosInstance.get(endPoints.common.getUser);
+}
 
-export async function updateUser(id: string, payload: Partial<UserType>) {
-  return AxiosInstance.put(endPoints.admin.users.update(id), payload);
+export async function updateUserDetails(payload: Partial<UserType>) {
+  return AxiosInstance.put(endPoints.common.updateUserDetails, payload);
 }
 
 export async function deleteUser(id: string) {

@@ -209,6 +209,54 @@ class CommonController {
     }
   }
 
+  // Update user Details
+  async updateUserDetails(req, res) {
+  try {
+    const id = req.user.id;
+
+    const {
+      name,
+      phone,
+      address,
+      department,
+    } = req.body;
+
+    const user = await User.findById(id);
+
+    if (!user) {
+      return res.status(404).json({
+        status: false,
+        message: "User not found.",
+      });
+    }
+
+    user.name = name || user.name;
+    user.phone = phone || user.phone;
+    user.address = address || user.address;
+    user.department =
+      department || user.department;
+
+    await user.save();
+
+    return res.status(200).json({
+      status: true,
+      message: "Profile updated successfully.",
+      data: user,
+    });
+  } catch (error) {
+    console.error(
+      "Error while updating profile:",
+      error
+    );
+
+    return res.status(500).json({
+      status: false,
+      message:
+        "Unable to update profile. Please try again later.",
+    });
+  }
+}
+
   // Logout
   async logout(req, res) {
     try {

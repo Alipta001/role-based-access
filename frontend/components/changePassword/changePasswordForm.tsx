@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { Eye, EyeOff, Loader2, Lock } from "lucide-react";
 import { toast } from "react-toastify";
 
-import { authService } from "@/api/services";
+import { authService, userService } from "@/api/services";
 import { UserType } from "@/types/user";
 
 export default function ChangePasswordForm() {
@@ -33,7 +33,7 @@ const [currentUser, setCurrentUser] = useState<UserType>();
   //Current user function
   const fetchCurrentUser = async()=>{
     try{
-      const response = await authService.getCurrentUser();
+      const response = await userService.getCurrentUser();
       setCurrentUser(response.data.data)
     }catch(error){
       console.log("Error in fetching the current logged in user: ",error);
