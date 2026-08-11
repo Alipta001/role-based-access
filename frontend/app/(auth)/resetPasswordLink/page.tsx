@@ -222,6 +222,7 @@ import {
 import { toast } from "react-toastify";
 
 import { authService } from "@/api/services";
+import { useRouter } from "next/navigation";
 
 interface ForgotPasswordFormValues {
   email: string;
@@ -229,6 +230,7 @@ interface ForgotPasswordFormValues {
 
 export default function ForgotPasswordPage() {
   const [loading, setLoading] = useState(false);
+  const router = useRouter()
 
   const {
     register,
@@ -404,16 +406,15 @@ export default function ForgotPasswordPage() {
           </div>
 
           {/* Back to login */}
-
-          <div className="mt-7 text-center">
-            <Link
-              href="/login"
-              className="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 transition hover:text-indigo-600"
-            >
-              <ArrowLeft size={16} />
-              Back to Login
-            </Link>
-          </div>
+          <button
+  type="button"
+  onClick={() => router.back()}
+  className="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 transition hover:text-indigo-600"
+>
+  <ArrowLeft size={16} />
+  Back to Login
+</button>
+        
         </div>
 
         {/* Footer */}
