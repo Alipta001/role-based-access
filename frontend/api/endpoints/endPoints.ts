@@ -1,7 +1,10 @@
+
 export const endPoints = {
   common: {
     changePassword: "/common/change-password",
     verifyOtp: "/common/verify-otp",
+    forgotPasswordLink: "/common/reset-password-link",
+    forgotPassword: "/common/reset-password",
     logout: "/common/logout",
     updateUserDetails: "/common/update-details",
     refreshToken: "/common/refresh-token",

@@ -18,10 +18,10 @@ router.get(
   CommonController.getUser
 );
 // verify OTP
-router.post(
-  "/verify-otp",
-  CommonController.verifyOtp
-);
+// router.post(
+//   "/verify-otp",
+//   CommonController.verifyOtp
+// );
 
 // refresh token
 router.post(
@@ -31,6 +31,11 @@ router.post(
 
 // Update user details
 router.put("/update-details", AuthCheck(["admin", "manager", "employee"]), CommonController.updateUserDetails)
+
+// Forgot password(employee and manager)
+router.post("/reset-password-link", CommonController.resetPasswordLink)
+router.post("/reset-password/:userId/:token", CommonController.resetPassword)
+
 
 // logout
 router.post(
