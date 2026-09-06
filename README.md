@@ -1,216 +1,490 @@
-# Role-Based Authentication & Record Management System
+<div align="center">
 
-A full-stack task and user management application with role-aware authentication, protected REST APIs, and separate admin, manager, and employee experiences.
+# 🔐 Role-Based Authentication & Record Management System
 
-[![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)](https://nextjs.org/) [![Node.js](https://img.shields.io/badge/Node.js-runtime-339933?logo=node.js&logoColor=white)](https://nodejs.org/) [![Express](https://img.shields.io/badge/Express-5-000000?logo=express)](https://expressjs.com/) [![MongoDB](https://img.shields.io/badge/MongoDB-Mongoose-47A248?logo=mongodb&logoColor=white)](https://www.mongodb.com/)
+### Secure • Scalable • Role-Aware Task Management
+
+A full-stack web application with **JWT authentication, role-based authorization, protected REST APIs, task management, user administration, and automated token refresh**.
+
+<br/>
+
+[![Next.js](https://img.shields.io/badge/Next.js-16-000000?style=for-the-badge\&logo=next.js\&logoColor=white)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge\&logo=react\&logoColor=black)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=for-the-badge\&logo=typescript\&logoColor=white)](https://www.typescriptlang.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge\&logo=node.js\&logoColor=white)](https://nodejs.org/)
+[![Express](https://img.shields.io/badge/Express-5-000000?style=for-the-badge\&logo=express\&logoColor=white)](https://expressjs.com/)
+[![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge\&logo=mongodb\&logoColor=white)](https://www.mongodb.com/)
+[![JWT](https://img.shields.io/badge/JWT-Authentication-000000?style=for-the-badge\&logo=jsonwebtokens\&logoColor=white)](https://jwt.io/)
+
+<br/><br/>
+
+[✨ Features](#-core-features) •
+[🔐 Authentication](#-authentication--authorization) •
+[👥 Roles](#-role-based-access-control) •
+[📋 Tasks](#-task-management) •
+[🚀 Installation](#-getting-started) •
+[📡 API](#-api-reference)
+
+<br/><br/>
+
+<img src="https://capsule-render.vercel.app/api?type=waving&color=6366f1&height=120&section=header" width="100%"/>
+
+</div>
 
 ---
 
-## Overview
+## 🚀 Why This Project?
 
-This project demonstrates a role-based access control system built around task records. The Next.js frontend communicates with an Express REST API through Axios. The backend authenticates users with JWTs stored in HTTP-only cookies, refreshes short-lived access tokens, and applies role permissions before task operations are executed.
+This project demonstrates how a modern full-stack application can combine **authentication, authorization, permissions, and business logic** into a secure and maintainable architecture.
 
-The application supports three roles:
+Instead of relying only on frontend restrictions, permissions are enforced directly at the **Express API and middleware layer**, ensuring protected operations remain secure even when accessed outside the frontend.
 
-- **Admin:** manages users and has full task access.
-- **Manager:** views users and manages task records within the manager permission set.
-- **Employee:** views tasks and can update the status of tasks assigned to them.
+### 👤 Three Dedicated Experiences
 
-## Key Features
+|   🔴 Administrator  |       🟣 Manager       |       🔵 Employee      |
+| :-----------------: | :--------------------: | :--------------------: |
+| Full system control | Task & user management | Assigned task workflow |
+| User administration |  Create & update tasks |       View tasks       |
+|    Full task CRUD   |   Manage assignments   | Update assigned status |
+|  Permission control |    No task deletion    | Restricted permissions |
 
-- Separate login experiences for admins, managers, and employees
-- JWT access tokens and seven-day refresh tokens
-- HTTP-only `token` and `refreshToken` cookies
-- Role checks through authentication middleware and task permissions
-- Task creation, listing, assignment, editing, status updates, and soft deletion
-- Assigned-task view for the authenticated user
-- Admin user creation with generated temporary passwords sent by email
-- Admin user listing, assignable-user lookup, and active/inactive status toggling
-- Profile updates, password changes, logout, and email password-reset links
-- Axios credentials support and automatic access-token refresh on `401` responses
-- Helmet, CORS restrictions, request logging, and rate limiting configured in the API
+---
 
-## Role-Based Access Control
+## ✨ Core Features
 
-Permissions below reflect the active `permission.js` map and route middleware. “Read users” refers to the mounted admin user-listing routes, not task records.
+<div align="center">
 
-| Role | Create tasks | Read tasks | Update tasks | Update task status | Delete tasks | Manage users |
-|---|---:|---:|---:|---:|---:|---|
-| Admin | ✅ | ✅ | ✅ | ✅ | ✅ | Create, list, assignable lookup, toggle status |
-| Manager | ✅ | ✅ | ✅ | ✅ | ❌ | List and assignable lookup |
-| Employee | ❌ | ✅ | ❌ | ✅* | ❌ | None |
+|  🔐 Authentication |   🛡️ Authorization   | 📋 Task Management |
+| :----------------: | :-------------------: | :----------------: |
+| JWT authentication |   Role-based access   |    Create tasks    |
+|  HTTP-only cookies | Permission middleware |    Assign tasks    |
+|   Refresh tokens   |     Protected APIs    |    Update tasks    |
+|  Password hashing  |   Role restrictions   |    Track status    |
 
-\* Employees can update status only when the task is assigned to their user ID. All task operations also require a valid authenticated token.
+| 👥 User Management |   📧 Email Workflows  |  ⚡ API Security |
+| :----------------: | :-------------------: | :-------------: |
+|    Create users    | Temporary credentials |      Helmet     |
+|    Manage users    |     Password reset    |       CORS      |
+|    Toggle status   |    SMTP integration   |  Rate limiting  |
+|  Assignable users  |  Email notifications  | Request logging |
 
-## Authentication & Authorization Architecture
+</div>
+
+---
+
+<div align="center">
+
+### 🧠 Built to Demonstrate Real-World Backend Security
+
+**Authentication → Authorization → Permissions → Business Logic → Database**
+
+<br/>
+
+⭐ **If you find this project useful, consider giving the repository a star!**
+
+</div>
+
+## ✨ Overview
+
+The **Role-Based Authentication & Record Management System** is a full-stack web application designed to demonstrate how modern applications can securely manage users, permissions, and business records.
+
+The platform separates functionality according to user roles while enforcing authorization at the **API and middleware level**, ensuring that frontend restrictions are backed by server-side security controls.
+
+### Core Capabilities
+
+* 🔐 Secure JWT-based authentication
+* 👥 Role-based access control
+* 🍪 HTTP-only authentication cookies
+* 🔄 Automatic access-token refresh
+* 📋 Task creation and management
+* 👤 User management and assignment
+* 📧 Email-based account provisioning
+* 🔑 Password change and password recovery
+* 🛡️ Protected REST APIs
+* 🗑️ Soft deletion of tasks
+* ⚡ Responsive Next.js dashboard interfaces
+* 🚦 API rate limiting and security middleware
+
+---
+
+## 🎯 Project Goals
+
+This project focuses on implementing the core architecture required by a real-world role-based application:
+
+1. **Authentication** — securely identify users.
+2. **Authorization** — control what authenticated users can access.
+3. **Permission Management** — apply granular permissions to business operations.
+4. **Secure API Design** — protect backend resources independently of the frontend.
+5. **Task Management** — provide a practical resource for demonstrating CRUD operations.
+6. **Account Management** — support profile, password, and user-administration workflows.
+
+---
+
+## 👥 Role-Based Access Control
+
+The application currently supports three roles.
+
+| Capability            | Admin | Manager | Employee |
+| --------------------- | :---: | :-----: | :------: |
+| Login                 |   ✅   |    ✅    |     ✅    |
+| Create Tasks          |   ✅   |    ✅    |     ❌    |
+| View Tasks            |   ✅   |    ✅    |     ✅    |
+| Update Tasks          |   ✅   |    ✅    |     ❌    |
+| Update Task Status    |   ✅   |    ✅    |    ✅*    |
+| Delete Tasks          |   ✅   |    ❌    |     ❌    |
+| List Users            |   ✅   |    ✅    |     ❌    |
+| View Assignable Users |   ✅   |    ✅    |     ❌    |
+| Create Users          |   ✅   |    ❌    |     ❌    |
+| Toggle User Status    |   ✅   |    ❌    |     ❌    |
+| Update Own Profile    |   ✅   |    ✅    |     ✅    |
+| Change Password       |   ✅   |    ✅    |     ✅    |
+| Logout                |   ✅   |    ✅    |     ✅    |
+
+> **Employee restriction:** Employees can update the status of a task only when that task is assigned to their own user ID.
+
+Authorization is enforced by the backend using authentication and permission middleware rather than relying solely on frontend UI restrictions.
+
+---
+
+## 🔐 Authentication & Authorization
+
+Authentication uses **JWT access and refresh tokens**.
+
+### Authentication Architecture
 
 ```mermaid
 flowchart LR
-    UI[Next.js frontend] --> AX[Axios with credentials]
-    AX --> API[Express REST API]
-    API --> AUTH[AuthCheck middleware]
-    AUTH --> JWT[Verify JWT from cookie or Authorization header]
-    JWT --> ROLE[Role and permission checks]
-    ROLE --> CTRL[Controllers]
-    CTRL --> MODEL[Mongoose models]
-    MODEL --> DB[(MongoDB)]
+    A[Next.js Client] --> B[Axios]
+    B --> C[Express REST API]
+    C --> D[AuthCheck Middleware]
+    D --> E[JWT Verification]
+    E --> F[Role / Permission Check]
+    F --> G[Controller]
+    G --> H[Mongoose]
+    H --> I[(MongoDB)]
 ```
 
-`AuthCheck` accepts the JWT from the `token` cookie or a bearer `Authorization` header. It verifies `JWT_SECRET`, attaches the decoded user to `req.user`, and can restrict access to specific roles. `Authorize` then checks the permission map for task operations.
-
-## Record Management
-
-The managed record type is a **task**. Tasks include a title, description, status, priority, assignee, due date, creator, updater, and deletion flag.
-
-| Operation | Implementation |
-|---|---|
-| **Create** | `POST /tasks/create`; available to admin and manager roles through `create_task` |
-| **Read** | `GET /tasks/list`, `GET /tasks/assigned`, and `GET /tasks/:id`; available to all roles through `read_task` |
-| **Update** | `PUT /tasks/:id`; available to admin and manager roles through `update_task` |
-| **Status update** | `PATCH /tasks/:id/status`; available to all roles through `update_task_status`, with employee assignment enforcement |
-| **Delete** | `DELETE /tasks/:id`; implemented as a soft delete by setting `isDeleted` to `true`; available to admins |
-
-Task statuses are `Pending`, `In Progress`, `Completed`, and `Cancelled`. Priorities are `Low`, `Medium`, `High`, and `Critical`.
-
-## Email, Temporary Credentials & Password Reset
-
-Email is actively used for two workflows:
-
-- When an admin creates a user, the backend generates a temporary password, hashes it with bcrypt, stores the user, and emails the temporary credentials.
-- Password-reset links are emailed through `POST /common/reset-password-link`. The reset token is signed with a user-specific secret and expires after 10 minutes.
-
-An OTP model and frontend endpoint constant exist, but the OTP route and verification controller are commented out. OTP verification is therefore **not an active feature** of the current application.
-
-## Technology Stack
-
-### Frontend
-
-- Next.js 16 with the App Router
-- React 19 and TypeScript
-- Axios with `withCredentials: true`
-- React Hook Form with Yup/Joi resolver packages present
-- Tailwind CSS 4
-- React Toastify, React Icons, Lucide React, and React Select
-
-### Backend
-
-- Node.js with Express 5
-- MongoDB with Mongoose
-- JSON Web Tokens via `jsonwebtoken`
-- Password hashing via `bcryptjs`
-- Nodemailer for account and reset-password emails
-- Joi validation middleware, with basic request checks and Mongoose validation used by current controllers/models
-- Helmet, CORS, `express-rate-limit`, Morgan, cookie-parser, and express-session
-
-## Project Architecture
-
-```text
-role-based-access/
-├── backend/
-│   ├── app.js
-│   ├── app/
-│   │   ├── config/          # MongoDB and email transport configuration
-│   │   ├── controller/      # Auth, user, and task request handlers
-│   │   ├── middleware/      # JWT authentication, permissions, validation
-│   │   ├── models/          # User, task, and OTP schemas
-│   │   ├── routes/          # Common, role, and task route modules
-│   │   └── utils/           # Password generation, email, and rate-limit helpers
-│   ├── public/              # Static assets and templates
-│   └── package.json
-└── frontend/
-    ├── app/                 # Next.js routes and role-based dashboard pages
-    ├── api/                 # Axios instance, endpoints, and service modules
-    ├── components/          # Auth, dashboard, profile, task, and user UI
-    ├── context/             # Dashboard context
-    ├── hooks/               # Authentication hooks
-    ├── types/               # Shared frontend data types
-    └── package.json
-```
-
-## API Overview
-
-The backend listens on port `4000` by default. Unless marked public, endpoints require the authenticated `token` cookie or a bearer token.
-
-### Authentication and Common Routes
-
-| Method | Endpoint | Authentication | Role / permission | Purpose |
-|---|---|---|---|---|
-| `POST` | `/admin/auth/login` | Public | None | Admin login |
-| `POST` | `/manager/auth/login` | Public | None | Manager login |
-| `POST` | `/employee/auth/login` | Public | None | Employee login |
-| `GET` | `/common/auth/user` | Required | Admin, manager, employee | Get the current user |
-| `POST` | `/common/refresh-token` | Refresh cookie | None | Issue a new access token |
-| `POST` | `/common/logout` | Required | Admin, manager, employee | Clear auth cookies and invalidate refresh token |
-| `PATCH` | `/common/change-password` | Required | Admin, manager, employee | Change the current password |
-| `PUT` | `/common/update-details` | Required | Admin, manager, employee | Update the current profile |
-| `POST` | `/common/reset-password-link` | Public | None | Send a password-reset email |
-| `POST` | `/common/reset-password/:userId/:token` | Reset token | None | Set a new password |
-
-### User Management Routes
-
-| Method | Endpoint | Authentication | Role / permission | Purpose |
-|---|---|---|---|---|
-| `POST` | `/admin/add-user` | Required | Admin | Create a manager or employee and email temporary credentials |
-| `GET` | `/admin/users` | Required | Admin or manager | List manager and employee users |
-| `GET` | `/admin/assignable-users` | Required | Admin or manager | List active users eligible for task assignment |
-| `PATCH` | `/admin/user/toggleUserStatus/:id` | Required | Admin | Toggle a user between active and inactive |
-
-### Task Routes
-
-| Method | Endpoint | Authentication | Role / permission | Purpose |
-|---|---|---|---|---|
-| `POST` | `/tasks/create` | Required | `create_task` | Create a task |
-| `GET` | `/tasks/list` | Required | `read_task` | List non-deleted tasks |
-| `GET` | `/tasks/assigned` | Required | `read_task` | List non-deleted tasks assigned to the current user |
-| `GET` | `/tasks/:id` | Required | `read_task` | Get one non-deleted task |
-| `PUT` | `/tasks/:id` | Required | `update_task` | Update task details |
-| `PATCH` | `/tasks/:id/status` | Required | `update_task_status` | Update task status |
-| `DELETE` | `/tasks/:id` | Required | `delete_task` | Soft-delete a task |
-
-## Authentication Flow
+### Authentication Flow
 
 ```mermaid
 sequenceDiagram
-    participant U as User
-    participant F as Next.js frontend
-    participant B as Express API
-    participant M as AuthCheck
-    participant D as MongoDB
+    participant User
+    participant Frontend
+    participant API
+    participant Auth
+    participant Database
 
-    U->>F: Submit role-specific login form
-    F->>B: POST /{role}/auth/login
-    B->>D: Find user and compare bcrypt hash
-    B-->>F: Set HTTP-only token and refreshToken cookies
-    F->>B: Request protected resource with credentials
-    B->>M: Read and verify access token
-    M->>D: Controller reads or changes records
-    D-->>F: Return API response
-    B-->>F: On expired access token, POST /common/refresh-token
+    User->>Frontend: Submit login credentials
+    Frontend->>API: POST /{role}/auth/login
+    API->>Database: Find user
+    Database-->>API: User record
+    API->>API: Compare password with bcrypt
+    API-->>Frontend: Set HTTP-only auth cookies
+
+    Frontend->>API: Protected API request
+    API->>Auth: Validate access token
+    Auth->>Database: Resolve authenticated user
+    Database-->>Auth: User information
+    Auth-->>API: Authorized request
+    API-->>Frontend: Protected resource
+
+    Frontend->>API: Request returns 401
+    API-->>Frontend: Unauthorized
+    Frontend->>API: Refresh access token
+    API-->>Frontend: New access token
+    Frontend->>API: Retry original request
 ```
 
-The frontend Axios interceptor retries a failed request once after refreshing the access token. Refresh tokens are stored with the user record and invalidated during logout.
+### Token Strategy
 
-## Installation
+* **Access token:** short-lived authentication credential.
+* **Refresh token:** seven-day token used to obtain a new access token.
+* Tokens are stored using **HTTP-only cookies**.
+* Refresh tokens are persisted against the authenticated user.
+* Logout invalidates the refresh-token state and clears authentication cookies.
+* Axios automatically retries a failed request after a successful token refresh.
+
+The backend authentication middleware can read the JWT from the authentication cookie or a bearer `Authorization` header.
+
+---
+
+## 📋 Task Management
+
+Tasks are the primary business resource managed by the application.
+
+Each task can contain:
+
+* Title
+* Description
+* Status
+* Priority
+* Assigned user
+* Due date
+* Creator
+* Last updater
+* Soft-deletion state
+
+### Task Lifecycle
+
+**Pending → In Progress → Completed**
+
+Tasks can also be moved to **Cancelled** where applicable.
+
+### Supported Statuses
+
+| Status        | Description                                    |
+| ------------- | ---------------------------------------------- |
+| `Pending`     | Task has been created but work has not started |
+| `In Progress` | Task is currently being worked on              |
+| `Completed`   | Task has been completed                        |
+| `Cancelled`   | Task has been cancelled                        |
+
+### Priority Levels
+
+`Low` · `Medium` · `High` · `Critical`
+
+---
+
+## 🧩 API Architecture
+
+The backend follows a modular Express architecture:
+
+```text
+Request
+   │
+   ▼
+Route
+   │
+   ├── Authentication Middleware
+   │
+   ├── Authorization Middleware
+   │
+   ├── Validation
+   │
+   ▼
+Controller
+   │
+   ▼
+Mongoose Model
+   │
+   ▼
+MongoDB
+```
+
+This separation keeps authentication, authorization, business logic, and database operations independent and maintainable.
+
+---
+
+## 🌐 API Reference
+
+The backend runs on port `4000` by default.
+
+### Authentication & Common
+
+| Method  | Endpoint                                | Access        | Purpose                |
+| ------- | --------------------------------------- | ------------- | ---------------------- |
+| `POST`  | `/admin/auth/login`                     | Public        | Admin login            |
+| `POST`  | `/manager/auth/login`                   | Public        | Manager login          |
+| `POST`  | `/employee/auth/login`                  | Public        | Employee login         |
+| `GET`   | `/common/auth/user`                     | Authenticated | Get current user       |
+| `POST`  | `/common/refresh-token`                 | Refresh token | Refresh access token   |
+| `POST`  | `/common/logout`                        | Authenticated | Logout                 |
+| `PATCH` | `/common/change-password`               | Authenticated | Change password        |
+| `PUT`   | `/common/update-details`                | Authenticated | Update profile         |
+| `POST`  | `/common/reset-password-link`           | Public        | Request password reset |
+| `POST`  | `/common/reset-password/:userId/:token` | Reset token   | Reset password         |
+
+### User Management
+
+| Method  | Endpoint                           | Access          | Purpose                            |
+| ------- | ---------------------------------- | --------------- | ---------------------------------- |
+| `POST`  | `/admin/add-user`                  | Admin           | Create manager/employee            |
+| `GET`   | `/admin/users`                     | Admin / Manager | List users                         |
+| `GET`   | `/admin/assignable-users`          | Admin / Manager | Get users available for assignment |
+| `PATCH` | `/admin/user/toggleUserStatus/:id` | Admin           | Toggle user status                 |
+
+### Task Management
+
+| Method   | Endpoint            | Permission           | Purpose             |
+| -------- | ------------------- | -------------------- | ------------------- |
+| `POST`   | `/tasks/create`     | `create_task`        | Create task         |
+| `GET`    | `/tasks/list`       | `read_task`          | List tasks          |
+| `GET`    | `/tasks/assigned`   | `read_task`          | List assigned tasks |
+| `GET`    | `/tasks/:id`        | `read_task`          | Get task            |
+| `PUT`    | `/tasks/:id`        | `update_task`        | Update task         |
+| `PATCH`  | `/tasks/:id/status` | `update_task_status` | Update task status  |
+| `DELETE` | `/tasks/:id`        | `delete_task`        | Soft-delete task    |
+
+---
+
+## 📧 Email & Account Management
+
+The application includes email-based account workflows.
+
+### Temporary Credentials
+
+When an administrator creates a new user:
+
+1. User information is submitted.
+2. The backend generates a temporary password.
+3. The password is securely hashed using bcrypt.
+4. The user account is stored.
+5. Temporary credentials are sent through email.
+
+### Password Recovery
+
+Users can request a password-reset link through the API.
+
+The reset token:
+
+* Is signed using a user-specific secret.
+* Expires after **10 minutes**.
+* Allows the user to set a new password.
+
+> **OTP status:** OTP-related models/constants exist in the codebase, but the OTP route and verification controller are currently inactive/commented out. OTP verification should therefore not be considered an active application feature.
+
+---
+
+## 🛡️ Security
+
+Security is implemented across both the authentication and API layers.
+
+### Implemented Controls
+
+* `bcryptjs` password hashing
+* JWT access and refresh tokens
+* HTTP-only authentication cookies
+* Production-aware cookie configuration
+* Role-based authorization
+* Granular permission middleware
+* Employee task-assignment enforcement
+* Environment-based secrets
+* Helmet security headers
+* CORS restrictions
+* Express rate limiting
+* Morgan request logging
+* Mongoose schema validation
+* Soft deletion for tasks
+
+### Security Considerations
+
+The reusable Joi validation middleware exists in the project but is not currently attached to all active routes.
+
+Before production deployment, validation coverage, authorization scoping, cookie configuration, CORS policy, logging, and error handling should be reviewed and hardened.
+
+---
+
+## 🏗️ Project Structure
+
+```text
+role-based-access/
+│
+├── backend/
+│   ├── app.js
+│   ├── app/
+│   │   ├── config/
+│   │   │   └── Database & email configuration
+│   │   ├── controller/
+│   │   │   └── Request/business logic
+│   │   ├── middleware/
+│   │   │   └── Authentication, authorization & validation
+│   │   ├── models/
+│   │   │   └── Mongoose schemas
+│   │   ├── routes/
+│   │   │   └── API route definitions
+│   │   └── utils/
+│   │       └── Shared backend utilities
+│   │
+│   └── package.json
+│
+├── frontend/
+│   ├── app/
+│   │   └── Next.js routes and dashboards
+│   ├── api/
+│   │   ├── axios/
+│   │   ├── endpoints/
+│   │   └── services/
+│   ├── components/
+│   │   └── Reusable UI components
+│   ├── context/
+│   ├── hooks/
+│   ├── types/
+│   └── package.json
+│
+└── README.md
+```
+
+---
+
+## ⚙️ Technology Stack
+
+### Frontend
+
+* **Next.js 16** — React framework and application routing
+* **React 19** — UI development
+* **TypeScript** — Static typing
+* **Tailwind CSS 4** — Styling
+* **Axios** — API communication
+* **React Hook Form** — Form management
+* **Yup / Joi resolver packages** — Form validation support
+* **React Icons / Lucide React** — Interface icons
+* **React Select** — Enhanced select controls
+* **React Toastify** — User notifications
+
+### Backend
+
+* **Node.js** — Runtime
+* **Express 5** — REST API framework
+* **MongoDB** — Database
+* **Mongoose** — ODM
+* **JSON Web Token** — Authentication
+* **bcryptjs** — Password hashing
+* **Nodemailer** — Email delivery
+* **Helmet** — Security headers
+* **express-rate-limit** — Rate limiting
+* **Morgan** — HTTP request logging
+* **cookie-parser** — Cookie handling
+* **express-session** — Session support
+
+---
+
+## 🚀 Getting Started
 
 ### Prerequisites
 
-- Node.js and npm
-- A running MongoDB instance or MongoDB connection string
-- SMTP credentials for account-creation and password-reset emails
+Make sure the following are installed:
 
-Install dependencies in each application directory:
+* Node.js
+* npm
+* MongoDB or a MongoDB Atlas connection
+* SMTP credentials for email functionality
+
+### 1. Clone the Repository
+
+```bash
+git clone <repository-url>
+cd role-based-access
+```
+
+### 2. Install Backend Dependencies
 
 ```bash
 cd backend
 npm install
+```
 
+### 3. Install Frontend Dependencies
+
+```bash
 cd ../frontend
 npm install
 ```
 
-## Environment Variables
+---
 
-Create `backend/.env` with values appropriate for your environment. Secret values are intentionally omitted here.
+## 🔑 Environment Configuration
+
+Create `backend/.env`:
 
 ```env
 PORT=4000
@@ -218,8 +492,10 @@ MONGODB_URL=your_mongodb_connection_string
 JWT_SECRET=your_access_token_secret
 REFRESH_SECRET=your_refresh_token_secret
 SESSION_SECRECT=your_session_secret
+
 FRONTEND_URL=http://localhost:3000
 NODE_ENV=development
+
 EMAIL_HOST=your_smtp_host
 EMAIL_PORT=587
 EMAIL_USER=your_smtp_username
@@ -227,52 +503,83 @@ EMAIL_PASS=your_smtp_password
 EMAIL_FROM=sender@example.com
 ```
 
-The backend reads `MONGODB_URL`, `JWT_SECRET`, `REFRESH_SECRET`, `SESSION_SECRECT`, `FRONTEND_URL`, `NODE_ENV`, and the `EMAIL_*` variables shown above. The spelling `SESSION_SECRECT` matches the current backend code.
+The backend currently reads the environment variables listed above. The spelling `SESSION_SECRECT` intentionally matches the existing backend implementation.
 
-For the frontend, create `frontend/.env.local` when the API is not running at its default URL:
+If required, create `frontend/.env.local`:
 
 ```env
 NEXT_PUBLIC_BASE_URL=http://localhost:4000
 ```
 
-Do not commit environment files or real credentials.
+> Never commit `.env`, `.env.local`, API keys, database credentials, SMTP passwords, or JWT secrets to source control.
 
-## Running the Applications
+---
 
-Start the backend:
+## ▶️ Running the Application
+
+### Start the Backend
 
 ```bash
 cd backend
 npm run dev
 ```
 
-The API is available at `http://localhost:4000` by default. For a normal Node.js start, use `npm start`.
+Default API:
 
-Start the frontend in a second terminal:
+```text
+http://localhost:4000
+```
+
+For a standard Node.js start:
+
+```bash
+npm start
+```
+
+### Start the Frontend
+
+Open another terminal:
 
 ```bash
 cd frontend
 npm run dev
 ```
 
-Open `http://localhost:3000` in a browser. Production frontend commands are `npm run build` followed by `npm start`.
+Application:
 
-## Example API Requests
+```text
+http://localhost:3000
+```
 
-Admin login, using the HTTP-only cookies returned by the response:
+### Production Build
+
+Frontend:
 
 ```bash
-curl -i -c cookies.txt \\
-  -H "Content-Type: application/json" \\
-  -d '{"email":"admin@example.com","password":"your_password"}' \\
+npm run build
+npm start
+```
+
+---
+
+## 🧪 Example API Request
+
+### Login
+
+The authentication cookies returned by the login response can be persisted with `curl`:
+
+```bash
+curl -i -c cookies.txt \
+  -H "Content-Type: application/json" \
+  -d '{"email":"admin@example.com","password":"your_password"}' \
   http://localhost:4000/admin/auth/login
 ```
 
-Create a task with the saved cookies:
+### Create a Task
 
 ```bash
-curl -i -b cookies.txt \\
-  -H "Content-Type: application/json" \\
+curl -i -b cookies.txt \
+  -H "Content-Type: application/json" \
   -d '{
     "title":"Prepare quarterly report",
     "description":"Collect and review the latest department figures.",
@@ -280,65 +587,105 @@ curl -i -b cookies.txt \\
     "status":"Pending",
     "priority":"High",
     "due_date":"2026-12-31"
-  }' \\
+  }' \
   http://localhost:4000/tasks/create
 ```
 
-Replace the example email, password, and `USER_ID` with values from your local database. Never place real credentials in documentation or source control.
+Replace the example values with data from your local environment.
 
-## Security Considerations
+---
 
-Implemented protections include:
+## 🖥️ Application Screenshots
 
-- bcrypt password hashing for stored passwords
-- JWT access and refresh tokens
-- HTTP-only authentication cookies with production-aware `secure` and `sameSite` settings
-- Role and permission checks before protected operations
-- Employee assignment enforcement for employee status updates
-- Environment variables for database, JWT, session, and SMTP secrets
-- Helmet security headers, CORS origin checks, request rate limiting, and Morgan request logging
-- Basic controller validation and Mongoose schema constraints
+Screenshots can be added under:
 
-The reusable Joi `validate` middleware is present but is not currently attached to the active route definitions. Review and strengthen validation, authorization scoping, and production cookie/CORS settings before deploying publicly.
+```text
+docs/
+└── screenshots/
+    ├── admin-dashboard.png
+    ├── manager-dashboard.png
+    └── employee-dashboard.png
+```
 
-## Screenshots
+Recommended screenshots:
 
-Screenshots are not included in the repository yet.
+* Admin dashboard
+* Manager dashboard
+* Employee dashboard
+* Task creation interface
+* Task management interface
+* User management interface
+* Login interface
 
-- `docs/screenshots/admin-dashboard.png` — placeholder
-- `docs/screenshots/manager-dashboard.png` — placeholder
-- `docs/screenshots/employee-dashboard.png` — placeholder
+---
 
-## Future Improvements
+## 🔮 Future Improvements
 
-- Add automated unit, integration, and end-to-end tests
-- Wire Joi schemas into the active routes for consistent request validation
-- Implement or remove the currently inactive OTP verification flow
-- Add pagination, filtering, and search to task and user listings
-- Add audit history for task and user changes
-- Add a production deployment configuration and health-check endpoint
-- Reconcile stale frontend endpoint constants with the routes currently mounted by the backend
+Potential improvements include:
 
-## Learning Outcomes
+* Automated unit and integration testing
+* End-to-end testing
+* Complete Joi validation coverage
+* Pagination and server-side filtering
+* Advanced task search
+* Task audit history
+* User activity logs
+* Improved notification system
+* Health-check endpoint
+* Production deployment configuration
+* Complete OTP verification workflow
+* API documentation with OpenAPI/Swagger
+* Improved synchronization between frontend endpoint constants and backend routes
 
-This project demonstrates practical experience with:
+---
 
-- Full-stack Next.js and Express application structure
-- JWT authentication with access-token refresh handling
-- HTTP-only cookie authentication and credentialed CORS
-- Role-based authorization and permission maps
-- RESTful CRUD design for task records
-- MongoDB schema modeling with Mongoose references and soft deletion
-- Password hashing, email workflows, and environment-based configuration
-- Reusable frontend API service modules and form handling
+## 📚 Learning Outcomes
 
-## Contributing
+This project demonstrates practical implementation of:
+
+* Full-stack application architecture
+* Next.js App Router
+* REST API development with Express
+* JWT authentication
+* Refresh-token architecture
+* HTTP-only cookie authentication
+* Role-based access control
+* Permission-based authorization
+* CRUD operations
+* MongoDB and Mongoose relationships
+* Password hashing
+* Email-based workflows
+* Secure API configuration
+* Axios interceptors
+* Form management
+* Middleware-driven backend architecture
+* Soft deletion
+* Environment-based configuration
+
+---
+
+## 🤝 Contributing
+
+Contributions and improvements are welcome.
 
 1. Create a feature branch.
-2. Keep changes scoped and update the documentation when behavior changes.
-3. Run the relevant frontend lint/build checks and backend verification before opening a pull request.
-4. Submit a pull request describing the behavior change and validation performed.
+2. Keep changes focused and maintainable.
+3. Update documentation when application behavior changes.
+4. Run frontend and backend checks before submitting changes.
+5. Open a pull request describing the changes and validation performed.
 
-## License
+---
 
-No repository-level license file is currently included. The backend package metadata declares the `ISC` license; confirm the intended project-wide license before distributing the repository.
+## 📄 License
+
+No repository-level `LICENSE` file is currently included.
+
+The backend package metadata specifies the **ISC** license. Before distributing the complete project, confirm and add the intended project-wide license.
+
+---
+
+## 👨‍💻 Project
+
+**Role-Based Authentication & Record Management System**
+
+A full-stack project focused on demonstrating secure authentication, authorization, permission management, and practical task-management workflows.
